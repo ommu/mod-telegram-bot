@@ -1,0 +1,22 @@
+code			: 
+name			: Telegram Bot
+description		: 
+folder_name		: 
+version			: 
+created_date	: 
+author			: Putra Sudaryanto [putra@sudaryanto.id]
+
+db_table_name	: 
+ 
+db_sql_filename	: 
+
+plugin_menu		:
+	- urlTitle: Contact Us
+		urlRules: {siteType: 0,1, userLevel: 1,2}
+		urlPath: {url: o/mail/manage, attr: -, icon: -}
+
+content_menu	:		
+# controller o/widget
+	- urlTitle: Add Widget
+		urlRules: {support, o/widget, manage, siteType: 0,1, userLevel: 1,2}
+		urlPath: {url: add, attr: -, icon: -}
