@@ -18,6 +18,9 @@ plugin_menu		:
 			- urlTitle: Users
 				urlRules: {siteType: 0,1, userLevel: 1,2}
 				urlPath: {url: o/users/manage, attr: -, icon: -}
+			- urlTitle: Commands
+				urlRules: {siteType: 0,1, userLevel: 1,2}
+				urlPath: {url: o/command/manage, attr: -, icon: -}
 
 content_menu	:
 # controller o/setting
@@ -34,4 +37,14 @@ content_menu	:
 # controller o/users
 	- urlTitle: Add User
 		urlRules: {telegrambot, o/users, manage, siteType: 0,1, userLevel: 1,2}
+		urlPath: {url: add, attr: -, icon: -}
+        
+# controller o/userhistory
+	- urlTitle: Back to Users
+		urlRules: {telegrambot, o/userhistory, manage, siteType: 0,1, userLevel: 1,2}
+		urlPath: {url: o/users/manage, attr: -, icon: -}
+        
+# controller o/command
+	- urlTitle: Add Command
+		urlRules: {telegrambot, o/command, manage, siteType: 0,1, userLevel: 1,2}
 		urlPath: {url: add, attr: -, icon: -}

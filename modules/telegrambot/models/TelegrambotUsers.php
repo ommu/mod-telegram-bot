@@ -98,6 +98,7 @@ class TelegrambotUsers extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'view' => array(self::BELONGS_TO, 'ViewTelegrambotUsers', 'subscribe_id'),
 			'histories' => array(self::HAS_MANY, 'TelegrambotUserHistory', 'subscribe_id'),
 			'setting' => array(self::BELONGS_TO, 'TelegrambotSettings', 'setting_id'),
 			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
@@ -168,6 +169,9 @@ class TelegrambotUsers extends CActiveRecord
 		
 		// Custom Search
 		$criteria->with = array(
+			'view' => array(
+				'alias'=>'view',
+			),
 			'setting' => array(
 				'alias'=>'setting',
 				'select'=>'bot_username',
@@ -305,6 +309,22 @@ class TelegrambotUsers extends CActiveRecord
 			);
 			$this->defaultColumns[] = 'telegram_first_name';
 			$this->defaultColumns[] = 'telegram_last_name';
+			$this->defaultColumns[] = array(
+				'header' => Yii::t('phrase', 'Subscribe'),
+				'value' => 'CHtml::link($data->view->subscribes, Yii::app()->controller->createUrl("o/userhistory/manage",array(\'subscribe\'=>$data->subscribe_id, \'type\'=>\'subscribe\')))',
+				'htmlOptions' => array(
+					'class' => 'center',
+				),
+				'type' => 'raw',
+			);
+			$this->defaultColumns[] = array(
+				'header' => Yii::t('phrase', 'History'),
+				'value' => 'CHtml::link($data->view->subscribe_history, Yii::app()->controller->createUrl("o/userhistory/manage",array(\'subscribe\'=>$data->subscribe_id)))',
+				'htmlOptions' => array(
+					'class' => 'center',
+				),
+				'type' => 'raw',
+			);
 			if(!isset($_GET['type'])) {
 				$this->defaultColumns[] = array(
 					'name' => 'status',

@@ -148,7 +148,10 @@ class TelegrambotUserHistory extends CActiveRecord
 			$criteria->compare('t.subscribe_id',$_GET['subscribe']);
 		else
 			$criteria->compare('t.subscribe_id',$this->subscribe_id);
-		$criteria->compare('t.status',$this->status);
+		if(isset($_GET['type']) && $_GET['type'] == 'subscribe')
+			$criteria->compare('t.status',1);
+		else
+			$criteria->compare('t.status',$this->status);
 		if($this->status_date != null && !in_array($this->status_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.status_date)',date('Y-m-d', strtotime($this->status_date)));
 		
@@ -218,18 +221,6 @@ class TelegrambotUserHistory extends CActiveRecord
 				);
 			}
 			$this->defaultColumns[] = array(
-				'name' => 'status',
-				'value' => '$data->status == 1 ? Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/publish.png\') : Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/unpublish.png\')',
-				'htmlOptions' => array(
-					//'class' => 'center',
-				),
-				'filter'=>array(
-					1=>Yii::t('phrase', 'Yes'),
-					0=>Yii::t('phrase', 'No'),
-				),
-				'type' => 'raw',
-			);
-			$this->defaultColumns[] = array(
 				'name' => 'status_date',
 				'value' => 'Utility::dateFormat($data->status_date, true)',
 				'htmlOptions' => array(
@@ -254,6 +245,18 @@ class TelegrambotUserHistory extends CActiveRecord
 						'showButtonPanel' => true,
 					),
 				), true),
+			);
+			$this->defaultColumns[] = array(
+				'name' => 'status',
+				'value' => '$data->status == 1 ? Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/publish.png\') : Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/unpublish.png\')',
+				'htmlOptions' => array(
+					'class' => 'center',
+				),
+				'filter'=>array(
+					1=>Yii::t('phrase', 'Yes'),
+					0=>Yii::t('phrase', 'No'),
+				),
+				'type' => 'raw',
 			);
 		}
 		parent::afterConstruct();
