@@ -11,12 +11,18 @@ db_table_name	:
 db_sql_filename	: 
 
 plugin_menu		:
-	- urlTitle: Contact Us
+	- urlTitle: Settings
 		urlRules: {siteType: 0,1, userLevel: 1,2}
-		urlPath: {url: o/mail/manage, attr: -, icon: -}
+		urlPath: {url: o/setting/index, attr: -, icon: -}
 
-content_menu	:		
-# controller o/widget
-	- urlTitle: Add Widget
-		urlRules: {support, o/widget, manage, siteType: 0,1, userLevel: 1,2}
+content_menu	:
+# controller o/setting
+	- urlTitle: Add Other Setting
+		urlRules: {telegrambot, o/setting, manage, siteType: 0,1, userLevel: 1,2}
 		urlPath: {url: add, attr: -, icon: -}
+	- urlTitle: Back to Settings
+		urlRules: {telegrambot, o/setting, edit, siteType: 0,1, userLevel: 1,2}
+		urlPath: {url: index, attr: -, icon: -}
+	- urlTitle: Back to Setting Manage
+		urlRules: {telegrambot, o/setting, add,edit,view, siteType: 0,1, userLevel: 1,2}
+		urlPath: {url: manage, attr: -, icon: -}

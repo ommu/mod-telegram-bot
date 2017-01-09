@@ -45,6 +45,9 @@
 class TelegrambotSettings extends CActiveRecord
 {
 	public $defaultColumns = array();
+	
+	// Variable Search
+	public $modified_search;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -73,14 +76,15 @@ class TelegrambotSettings extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('publish, bot_username, bot_token, bot_name, bot_description, bot_about_text, bot_userpic, webhook_url, webhook_certificate, webhook_max_connections, webhook_allowed_updates, modified_id', 'required'),
+			array('publish, bot_username, bot_token, bot_name, webhook_url', 'required'),
 			array('publish, webhook_max_connections', 'numerical', 'integerOnly'=>true),
 			array('bot_username, bot_name', 'length', 'max'=>32),
 			array('modified_id', 'length', 'max'=>11),
-			array('modified_date', 'safe'),
+			array('bot_description, bot_about_text, bot_userpic, webhook_certificate, webhook_max_connections, webhook_allowed_updates', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('setting_id, publish, bot_username, bot_token, bot_name, bot_description, bot_about_text, bot_userpic, webhook_url, webhook_certificate, webhook_max_connections, webhook_allowed_updates, modified_date, modified_id', 'safe', 'on'=>'search'),
+			array('setting_id, publish, bot_username, bot_token, bot_name, bot_description, bot_about_text, bot_userpic, webhook_url, webhook_certificate, webhook_max_connections, webhook_allowed_updates, modified_date, modified_id,
+				modified_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -92,8 +96,9 @@ class TelegrambotSettings extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'ommuTelegrambotCommands_relation' => array(self::HAS_MANY, 'OmmuTelegrambotCommands', 'setting_id'),
-			'ommuTelegrambotUsers_relation' => array(self::HAS_MANY, 'OmmuTelegrambotUsers', 'setting_id'),
+			'commands' => array(self::HAS_MANY, 'TelegrambotCommands', 'setting_id'),
+			'users' => array(self::HAS_MANY, 'TelegrambotUsers', 'setting_id'),
+			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
 		);
 	}
 
@@ -110,13 +115,14 @@ class TelegrambotSettings extends CActiveRecord
 			'bot_name' => Yii::t('attribute', 'Bot Name'),
 			'bot_description' => Yii::t('attribute', 'Bot Description'),
 			'bot_about_text' => Yii::t('attribute', 'Bot About Text'),
-			'bot_userpic' => Yii::t('attribute', 'Bot Userpic'),
+			'bot_userpic' => Yii::t('attribute', 'Bot User Picture'),
 			'webhook_url' => Yii::t('attribute', 'Webhook Url'),
 			'webhook_certificate' => Yii::t('attribute', 'Webhook Certificate'),
 			'webhook_max_connections' => Yii::t('attribute', 'Webhook Max Connections'),
 			'webhook_allowed_updates' => Yii::t('attribute', 'Webhook Allowed Updates'),
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
 			'modified_id' => Yii::t('attribute', 'Modified'),
+			'modified_search' => Yii::t('attribute', 'Modified'),
 		);
 		/*
 			'Setting' => 'Setting',
@@ -154,6 +160,14 @@ class TelegrambotSettings extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
+		
+		// Custom Search
+		$criteria->with = array(
+			'modified' => array(
+				'alias'=>'modified',
+				'select'=>'displayname',
+			),
+		);
 
 		$criteria->compare('t.setting_id',$this->setting_id);
 		if(isset($_GET['type']) && $_GET['type'] == 'publish')
@@ -182,6 +196,8 @@ class TelegrambotSettings extends CActiveRecord
 			$criteria->compare('t.modified_id',$_GET['modified']);
 		else
 			$criteria->compare('t.modified_id',$this->modified_id);
+		
+		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
 
 		if(!isset($_GET['TelegrambotSettings_sort']))
 			$criteria->order = 't.setting_id DESC';
@@ -248,30 +264,18 @@ class TelegrambotSettings extends CActiveRecord
 				'header' => 'No',
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
-			if(!isset($_GET['type'])) {
-				$this->defaultColumns[] = array(
-					'name' => 'publish',
-					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("publish",array("id"=>$data->setting_id)), $data->publish, 1)',
-					'htmlOptions' => array(
-						'class' => 'center',
-					),
-					'filter'=>array(
-						1=>Yii::t('phrase', 'Yes'),
-						0=>Yii::t('phrase', 'No'),
-					),
-					'type' => 'raw',
-				);
-			}
-			$this->defaultColumns[] = 'bot_username';
-			$this->defaultColumns[] = 'bot_token';
-			$this->defaultColumns[] = 'bot_name';
-			$this->defaultColumns[] = 'bot_description';
-			$this->defaultColumns[] = 'bot_about_text';
-			$this->defaultColumns[] = 'bot_userpic';
-			$this->defaultColumns[] = 'webhook_url';
-			$this->defaultColumns[] = 'webhook_certificate';
-			$this->defaultColumns[] = 'webhook_max_connections';
-			$this->defaultColumns[] = 'webhook_allowed_updates';
+			$this->defaultColumns[] = array(
+				'name' => 'bot_username',
+				'value' => '"@".$data->bot_username',
+			);
+			$this->defaultColumns[] = array(
+				'name' => 'bot_name',
+				'value' => '$data->bot_name',
+			);
+			$this->defaultColumns[] = array(
+				'name' => 'modified_search',
+				'value' => '$data->modified->displayname',
+			);
 			$this->defaultColumns[] = array(
 				'name' => 'modified_date',
 				'value' => 'Utility::dateFormat($data->modified_date)',
@@ -298,7 +302,20 @@ class TelegrambotSettings extends CActiveRecord
 					),
 				), true),
 			);
-			$this->defaultColumns[] = 'modified_id';
+			if(!isset($_GET['type'])) {
+				$this->defaultColumns[] = array(
+					'name' => 'publish',
+					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("publish",array("id"=>$data->setting_id)), $data->publish, 1)',
+					'htmlOptions' => array(
+						'class' => 'center',
+					),
+					'filter'=>array(
+						1=>Yii::t('phrase', 'Yes'),
+						0=>Yii::t('phrase', 'No'),
+					),
+					'type' => 'raw',
+				);
+			}
 		}
 		parent::afterConstruct();
 	}
@@ -323,68 +340,11 @@ class TelegrambotSettings extends CActiveRecord
 	/**
 	 * before validate attributes
 	 */
-	/*
 	protected function beforeValidate() {
 		if(parent::beforeValidate()) {
-			// Create action
+			$this->modified_id = Yii::app()->user->id;
 		}
 		return true;
 	}
-	*/
-
-	/**
-	 * after validate attributes
-	 */
-	/*
-	protected function afterValidate()
-	{
-		parent::afterValidate();
-			// Create action
-		return true;
-	}
-	*/
-	
-	/**
-	 * before save attributes
-	 */
-	/*
-	protected function beforeSave() {
-		if(parent::beforeSave()) {
-		}
-		return true;	
-	}
-	*/
-	
-	/**
-	 * After save attributes
-	 */
-	/*
-	protected function afterSave() {
-		parent::afterSave();
-		// Create action
-	}
-	*/
-
-	/**
-	 * Before delete attributes
-	 */
-	/*
-	protected function beforeDelete() {
-		if(parent::beforeDelete()) {
-			// Create action
-		}
-		return true;
-	}
-	*/
-
-	/**
-	 * After delete attributes
-	 */
-	/*
-	protected function afterDelete() {
-		parent::afterDelete();
-		// Create action
-	}
-	*/
 
 }
