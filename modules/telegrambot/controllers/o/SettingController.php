@@ -105,7 +105,7 @@ class SettingController extends Controller
 	 */
 	public function actionIndex() 
 	{
-		$model = $this->getSetting();
+		$model = TelegrambotSettings::getSetting(1);
 		
 		if($model == null || ($model != null && count($model) == 1))
 			$this->redirect(array('edit'));
@@ -180,7 +180,7 @@ class SettingController extends Controller
 	{
 		$id = 0;
 		if(!isset($_GET['id'])) {
-			$model = $this->getSetting();
+			$model = TelegrambotSettings::getSetting(1);
 			if($model != null)
 				$id = $model[0]->setting_id;
 		} else

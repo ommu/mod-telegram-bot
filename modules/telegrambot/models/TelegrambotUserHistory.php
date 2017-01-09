@@ -34,6 +34,11 @@
 class TelegrambotUserHistory extends CActiveRecord
 {
 	public $defaultColumns = array();
+	
+	// Variable Search
+	public $user_search;
+	public $telegram_search;
+	public $username_search;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -68,7 +73,8 @@ class TelegrambotUserHistory extends CActiveRecord
 			array('status_date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, subscribe_id, status, status_date', 'safe', 'on'=>'search'),
+			array('id, subscribe_id, status, status_date,
+				user_search, telegram_search, username_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -80,7 +86,7 @@ class TelegrambotUserHistory extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'subscribe_relation' => array(self::BELONGS_TO, 'OmmuTelegrambotUsers', 'subscribe_id'),
+			'subscribe' => array(self::BELONGS_TO, 'TelegrambotUsers', 'subscribe_id'),
 		);
 	}
 
@@ -94,6 +100,9 @@ class TelegrambotUserHistory extends CActiveRecord
 			'subscribe_id' => Yii::t('attribute', 'Subscribe'),
 			'status' => Yii::t('attribute', 'Status'),
 			'status_date' => Yii::t('attribute', 'Status Date'),
+			'user_search' => Yii::t('attribute', 'User'),
+			'telegram_search' => Yii::t('attribute', 'Telegram ID'),
+			'username_search' => Yii::t('attribute', 'Username'),
 		);
 		/*
 			'ID' => 'ID',
@@ -121,6 +130,18 @@ class TelegrambotUserHistory extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
+		
+		// Custom Search
+		$criteria->with = array(
+			'subscribe' => array(
+				'alias'=>'subscribe',
+				'select'=>'user_id, telegram_id, telegram_username',
+			),
+			'subscribe.user' => array(
+				'alias'=>'user',
+				'select'=>'displayname',
+			),
+		);
 
 		$criteria->compare('t.id',strtolower($this->id),true);
 		if(isset($_GET['subscribe']))
@@ -130,6 +151,10 @@ class TelegrambotUserHistory extends CActiveRecord
 		$criteria->compare('t.status',$this->status);
 		if($this->status_date != null && !in_array($this->status_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.status_date)',date('Y-m-d', strtotime($this->status_date)));
+		
+		$criteria->compare('user.displayname',strtolower($this->user_search), true);
+		$criteria->compare('subscribe.telegram_id',strtolower($this->telegram_search), true);
+		$criteria->compare('subscribe.telegram_username',strtolower($this->username_search), true);
 
 		if(!isset($_GET['TelegrambotUserHistory_sort']))
 			$criteria->order = 't.id DESC';
@@ -174,38 +199,41 @@ class TelegrambotUserHistory extends CActiveRecord
 	 */
 	protected function afterConstruct() {
 		if(count($this->defaultColumns) == 0) {
-			/*
-			$this->defaultColumns[] = array(
-				'class' => 'CCheckBoxColumn',
-				'name' => 'id',
-				'selectableRows' => 2,
-				'checkBoxHtmlOptions' => array('name' => 'trash_id[]')
-			);
-			*/
 			$this->defaultColumns[] = array(
 				'header' => 'No',
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
-			$this->defaultColumns[] = 'subscribe_id';
-			if(!isset($_GET['type'])) {
+			if(!isset($_GET['subscribe'])) {
 				$this->defaultColumns[] = array(
-					'name' => 'status',
-					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("status",array("id"=>$data->id)), $data->status, 1)',
-					'htmlOptions' => array(
-						'class' => 'center',
-					),
-					'filter'=>array(
-						1=>Yii::t('phrase', 'Yes'),
-						0=>Yii::t('phrase', 'No'),
-					),
-					'type' => 'raw',
+					'name' => 'user_search',
+					'value' => '$data->subscribe->user_id != 0 ? $data->subscribe->user->displayname : "-"',
+				);
+				$this->defaultColumns[] = array(
+					'name' => 'username_search',
+					'value' => '$data->subscribe->telegram_username != \'\' ? $data->subscribe->telegram_username : "-"',
+				);
+				$this->defaultColumns[] = array(
+					'name' => 'telegram_search',
+					'value' => '$data->subscribe->telegram_id',
 				);
 			}
 			$this->defaultColumns[] = array(
-				'name' => 'status_date',
-				'value' => 'Utility::dateFormat($data->status_date)',
+				'name' => 'status',
+				'value' => '$data->status == 1 ? Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/publish.png\') : Chtml::image(Yii::app()->theme->baseUrl.\'/images/icons/unpublish.png\')',
 				'htmlOptions' => array(
-					'class' => 'center',
+					//'class' => 'center',
+				),
+				'filter'=>array(
+					1=>Yii::t('phrase', 'Yes'),
+					0=>Yii::t('phrase', 'No'),
+				),
+				'type' => 'raw',
+			);
+			$this->defaultColumns[] = array(
+				'name' => 'status_date',
+				'value' => 'Utility::dateFormat($data->status_date, true)',
+				'htmlOptions' => array(
+					//'class' => 'center',
 				),
 				'filter' => Yii::app()->controller->widget('zii.widgets.jui.CJuiDatePicker', array(
 					'model'=>$this,
@@ -247,73 +275,5 @@ class TelegrambotUserHistory extends CActiveRecord
 			return $model;			
 		}
 	}
-
-	/**
-	 * before validate attributes
-	 */
-	/*
-	protected function beforeValidate() {
-		if(parent::beforeValidate()) {
-			// Create action
-		}
-		return true;
-	}
-	*/
-
-	/**
-	 * after validate attributes
-	 */
-	/*
-	protected function afterValidate()
-	{
-		parent::afterValidate();
-			// Create action
-		return true;
-	}
-	*/
-	
-	/**
-	 * before save attributes
-	 */
-	/*
-	protected function beforeSave() {
-		if(parent::beforeSave()) {
-			//$this->status_date = date('Y-m-d', strtotime($this->status_date));
-		}
-		return true;	
-	}
-	*/
-	
-	/**
-	 * After save attributes
-	 */
-	/*
-	protected function afterSave() {
-		parent::afterSave();
-		// Create action
-	}
-	*/
-
-	/**
-	 * Before delete attributes
-	 */
-	/*
-	protected function beforeDelete() {
-		if(parent::beforeDelete()) {
-			// Create action
-		}
-		return true;
-	}
-	*/
-
-	/**
-	 * After delete attributes
-	 */
-	/*
-	protected function afterDelete() {
-		parent::afterDelete();
-		// Create action
-	}
-	*/
 
 }

@@ -24,7 +24,7 @@
  *
  * The followings are the available columns in table 'ommu_telegrambot_users':
  * @property string $subscribe_id
- * @property integer $subscribe
+ * @property integer $status
  * @property integer $setting_id
  * @property string $user_id
  * @property string $telegram_id
@@ -44,6 +44,12 @@
 class TelegrambotUsers extends CActiveRecord
 {
 	public $defaultColumns = array();
+	
+	// Variable Search
+	public $setting_search;
+	public $user_search;
+	public $creation_search;
+	public $modified_search;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -72,14 +78,15 @@ class TelegrambotUsers extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('subscribe, setting_id, user_id, telegram_id, telegram_first_name, telegram_last_name, telegram_username, creation_date, creation_id, modified_id', 'required'),
-			array('subscribe, setting_id', 'numerical', 'integerOnly'=>true),
+			array('status, setting_id, telegram_id, telegram_first_name', 'required'),
+			array('status, setting_id', 'numerical', 'integerOnly'=>true),
 			array('user_id, telegram_id, creation_id, modified_id', 'length', 'max'=>11),
 			array('telegram_username', 'length', 'max'=>32),
-			array('subscribe_date, modified_date', 'safe'),
+			array('user_id, telegram_last_name, telegram_username', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('subscribe_id, subscribe, setting_id, user_id, telegram_id, telegram_first_name, telegram_last_name, telegram_username, subscribe_date, creation_date, creation_id, modified_date, modified_id', 'safe', 'on'=>'search'),
+			array('subscribe_id, status, setting_id, user_id, telegram_id, telegram_first_name, telegram_last_name, telegram_username, subscribe_date, creation_date, creation_id, modified_date, modified_id,
+				setting_search, user_search, creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -91,8 +98,11 @@ class TelegrambotUsers extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'ommuTelegrambotUserHistories_relation' => array(self::HAS_MANY, 'OmmuTelegrambotUserHistory', 'subscribe_id'),
-			'setting_relation' => array(self::BELONGS_TO, 'OmmuTelegrambotSettings', 'setting_id'),
+			'histories' => array(self::HAS_MANY, 'TelegrambotUserHistory', 'subscribe_id'),
+			'setting' => array(self::BELONGS_TO, 'TelegrambotSettings', 'setting_id'),
+			'user' => array(self::BELONGS_TO, 'Users', 'user_id'),
+			'creation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
+			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
 		);
 	}
 
@@ -103,18 +113,22 @@ class TelegrambotUsers extends CActiveRecord
 	{
 		return array(
 			'subscribe_id' => Yii::t('attribute', 'Subscribe'),
-			'subscribe' => Yii::t('attribute', 'Subscribe'),
+			'status' => Yii::t('attribute', 'Status'),
 			'setting_id' => Yii::t('attribute', 'Setting'),
 			'user_id' => Yii::t('attribute', 'User'),
-			'telegram_id' => Yii::t('attribute', 'Telegram'),
-			'telegram_first_name' => Yii::t('attribute', 'Telegram First Name'),
-			'telegram_last_name' => Yii::t('attribute', 'Telegram Last Name'),
-			'telegram_username' => Yii::t('attribute', 'Telegram Username'),
+			'telegram_id' => Yii::t('attribute', 'Telegram ID'),
+			'telegram_first_name' => Yii::t('attribute', 'First Name'),
+			'telegram_last_name' => Yii::t('attribute', 'Last Name'),
+			'telegram_username' => Yii::t('attribute', 'Username'),
 			'subscribe_date' => Yii::t('attribute', 'Subscribe Date'),
 			'creation_date' => Yii::t('attribute', 'Creation Date'),
 			'creation_id' => Yii::t('attribute', 'Creation'),
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
 			'modified_id' => Yii::t('attribute', 'Modified'),
+			'setting_search' => Yii::t('attribute', 'Setting'),
+			'user_search' => Yii::t('attribute', 'User'),
+			'creation_search' => Yii::t('attribute', 'Creation'),
+			'modified_search' => Yii::t('attribute', 'Modified'),
 		);
 		/*
 			'Subscribe' => 'Subscribe',
@@ -151,9 +165,29 @@ class TelegrambotUsers extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
+		
+		// Custom Search
+		$criteria->with = array(
+			'setting' => array(
+				'alias'=>'setting',
+				'select'=>'bot_username',
+			),
+			'user' => array(
+				'alias'=>'user',
+				'select'=>'displayname',
+			),
+			'creation' => array(
+				'alias'=>'creation',
+				'select'=>'displayname',
+			),
+			'modified' => array(
+				'alias'=>'modified',
+				'select'=>'displayname',
+			),
+		);
 
 		$criteria->compare('t.subscribe_id',strtolower($this->subscribe_id),true);
-		$criteria->compare('t.subscribe',$this->subscribe);
+		$criteria->compare('t.status',$this->status);
 		if(isset($_GET['setting']))
 			$criteria->compare('t.setting_id',$_GET['setting']);
 		else
@@ -180,6 +214,11 @@ class TelegrambotUsers extends CActiveRecord
 			$criteria->compare('t.modified_id',$_GET['modified']);
 		else
 			$criteria->compare('t.modified_id',$this->modified_id);
+		
+		$criteria->compare('setting.bot_username',strtolower($this->setting_search), true);
+		$criteria->compare('user.displayname',strtolower($this->user_search), true);
+		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
+		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
 
 		if(!isset($_GET['TelegrambotUsers_sort']))
 			$criteria->order = 't.subscribe_id DESC';
@@ -211,7 +250,7 @@ class TelegrambotUsers extends CActiveRecord
 			}
 		} else {
 			//$this->defaultColumns[] = 'subscribe_id';
-			$this->defaultColumns[] = 'subscribe';
+			$this->defaultColumns[] = 'status';
 			$this->defaultColumns[] = 'setting_id';
 			$this->defaultColumns[] = 'user_id';
 			$this->defaultColumns[] = 'telegram_id';
@@ -245,10 +284,31 @@ class TelegrambotUsers extends CActiveRecord
 				'header' => 'No',
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
+			$this->defaultColumns[] = array(
+				'name' => 'setting_search',
+				'value' => '$data->setting->bot_username',
+			);
+			$this->defaultColumns[] = array(
+				'name' => 'user_search',
+				'value' => '$data->user_id != 0 ? $data->user->displayname : "-"',
+			);
+			$this->defaultColumns[] = array(
+				'name' => 'telegram_id',
+				'value' => '$data->telegram_id != 0 ? $data->telegram_id : "-"',
+				'htmlOptions' => array(
+					'class' => 'center',
+				),
+			);
+			$this->defaultColumns[] = array(
+				'name' => 'telegram_username',
+				'value' => '"@".$data->telegram_username',
+			);
+			$this->defaultColumns[] = 'telegram_first_name';
+			$this->defaultColumns[] = 'telegram_last_name';
 			if(!isset($_GET['type'])) {
 				$this->defaultColumns[] = array(
-					'name' => 'subscribe',
-					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("subscribe",array("id"=>$data->subscribe_id)), $data->subscribe, 1)',
+					'name' => 'status',
+					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("subscribe",array("id"=>$data->subscribe_id)), $data->status, 1)',
 					'htmlOptions' => array(
 						'class' => 'center',
 					),
@@ -259,92 +319,6 @@ class TelegrambotUsers extends CActiveRecord
 					'type' => 'raw',
 				);
 			}
-			$this->defaultColumns[] = 'setting_id';
-			$this->defaultColumns[] = 'user_id';
-			$this->defaultColumns[] = 'telegram_id';
-			$this->defaultColumns[] = 'telegram_first_name';
-			$this->defaultColumns[] = 'telegram_last_name';
-			$this->defaultColumns[] = 'telegram_username';
-			$this->defaultColumns[] = array(
-				'name' => 'subscribe_date',
-				'value' => 'Utility::dateFormat($data->subscribe_date)',
-				'htmlOptions' => array(
-					'class' => 'center',
-				),
-				'filter' => Yii::app()->controller->widget('zii.widgets.jui.CJuiDatePicker', array(
-					'model'=>$this,
-					'attribute'=>'subscribe_date',
-					'language' => 'ja',
-					'i18nScriptFile' => 'jquery.ui.datepicker-en.js',
-					//'mode'=>'datetime',
-					'htmlOptions' => array(
-						'id' => 'subscribe_date_filter',
-					),
-					'options'=>array(
-						'showOn' => 'focus',
-						'dateFormat' => 'dd-mm-yy',
-						'showOtherMonths' => true,
-						'selectOtherMonths' => true,
-						'changeMonth' => true,
-						'changeYear' => true,
-						'showButtonPanel' => true,
-					),
-				), true),
-			);
-			$this->defaultColumns[] = array(
-				'name' => 'creation_date',
-				'value' => 'Utility::dateFormat($data->creation_date)',
-				'htmlOptions' => array(
-					'class' => 'center',
-				),
-				'filter' => Yii::app()->controller->widget('zii.widgets.jui.CJuiDatePicker', array(
-					'model'=>$this,
-					'attribute'=>'creation_date',
-					'language' => 'ja',
-					'i18nScriptFile' => 'jquery.ui.datepicker-en.js',
-					//'mode'=>'datetime',
-					'htmlOptions' => array(
-						'id' => 'creation_date_filter',
-					),
-					'options'=>array(
-						'showOn' => 'focus',
-						'dateFormat' => 'dd-mm-yy',
-						'showOtherMonths' => true,
-						'selectOtherMonths' => true,
-						'changeMonth' => true,
-						'changeYear' => true,
-						'showButtonPanel' => true,
-					),
-				), true),
-			);
-			$this->defaultColumns[] = 'creation_id';
-			$this->defaultColumns[] = array(
-				'name' => 'modified_date',
-				'value' => 'Utility::dateFormat($data->modified_date)',
-				'htmlOptions' => array(
-					'class' => 'center',
-				),
-				'filter' => Yii::app()->controller->widget('zii.widgets.jui.CJuiDatePicker', array(
-					'model'=>$this,
-					'attribute'=>'modified_date',
-					'language' => 'ja',
-					'i18nScriptFile' => 'jquery.ui.datepicker-en.js',
-					//'mode'=>'datetime',
-					'htmlOptions' => array(
-						'id' => 'modified_date_filter',
-					),
-					'options'=>array(
-						'showOn' => 'focus',
-						'dateFormat' => 'dd-mm-yy',
-						'showOtherMonths' => true,
-						'selectOtherMonths' => true,
-						'changeMonth' => true,
-						'changeYear' => true,
-						'showButtonPanel' => true,
-					),
-				), true),
-			);
-			$this->defaultColumns[] = 'modified_id';
 		}
 		parent::afterConstruct();
 	}
@@ -369,68 +343,19 @@ class TelegrambotUsers extends CActiveRecord
 	/**
 	 * before validate attributes
 	 */
-	/*
 	protected function beforeValidate() {
 		if(parent::beforeValidate()) {
-			// Create action
+			$setting = TelegrambotSettings::getSetting(1);
+				
+			if($this->isNewRecord) {
+				if($setting != null && count($setting) == 1)
+					$this->setting_id = $setting[0]->setting_id;
+				$this->creation_id = Yii::app()->user->id;
+				
+			} else
+				$this->modified_id = Yii::app()->user->id;
 		}
 		return true;
 	}
-	*/
-
-	/**
-	 * after validate attributes
-	 */
-	/*
-	protected function afterValidate()
-	{
-		parent::afterValidate();
-			// Create action
-		return true;
-	}
-	*/
-	
-	/**
-	 * before save attributes
-	 */
-	/*
-	protected function beforeSave() {
-		if(parent::beforeSave()) {
-		}
-		return true;	
-	}
-	*/
-	
-	/**
-	 * After save attributes
-	 */
-	/*
-	protected function afterSave() {
-		parent::afterSave();
-		// Create action
-	}
-	*/
-
-	/**
-	 * Before delete attributes
-	 */
-	/*
-	protected function beforeDelete() {
-		if(parent::beforeDelete()) {
-			// Create action
-		}
-		return true;
-	}
-	*/
-
-	/**
-	 * After delete attributes
-	 */
-	/*
-	protected function afterDelete() {
-		parent::afterDelete();
-		// Create action
-	}
-	*/
 
 }

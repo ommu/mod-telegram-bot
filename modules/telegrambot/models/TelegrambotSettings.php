@@ -110,12 +110,12 @@ class TelegrambotSettings extends CActiveRecord
 		return array(
 			'setting_id' => Yii::t('attribute', 'Setting'),
 			'publish' => Yii::t('attribute', 'Publish'),
-			'bot_username' => Yii::t('attribute', 'Bot Username'),
-			'bot_token' => Yii::t('attribute', 'Bot Token'),
-			'bot_name' => Yii::t('attribute', 'Bot Name'),
-			'bot_description' => Yii::t('attribute', 'Bot Description'),
-			'bot_about_text' => Yii::t('attribute', 'Bot About Text'),
-			'bot_userpic' => Yii::t('attribute', 'Bot User Picture'),
+			'bot_username' => Yii::t('attribute', 'Username'),
+			'bot_token' => Yii::t('attribute', 'Token'),
+			'bot_name' => Yii::t('attribute', 'Name'),
+			'bot_description' => Yii::t('attribute', 'Description'),
+			'bot_about_text' => Yii::t('attribute', 'About Text'),
+			'bot_userpic' => Yii::t('attribute', 'User Picture'),
 			'webhook_url' => Yii::t('attribute', 'Webhook Url'),
 			'webhook_certificate' => Yii::t('attribute', 'Webhook Certificate'),
 			'webhook_max_connections' => Yii::t('attribute', 'Webhook Max Connections'),
@@ -335,6 +335,32 @@ class TelegrambotSettings extends CActiveRecord
 			$model = self::model()->findByPk($id);
 			return $model;			
 		}
+	}
+
+	/**
+	 * User get information
+	 */	
+	public static function getSetting($publish=null, $type=null) 
+	{
+		$criteria=new CDbCriteria;
+		if($publish != null)
+			$criteria->compare('t.publish', $publish);
+		$criteria->order = 'setting_id ASC';
+		
+		$model = self::model()->findAll($criteria);
+		
+		if($type != null && $type == 'array') {
+			$items = array();
+			if($model != null) {
+				foreach($model as $key => $val)
+					$items[$val->setting_id] = $val->bot_username;
+			}
+			$return = $items;
+			
+		} else
+			$return = $model;
+		
+		return $return;
 	}
 
 	/**

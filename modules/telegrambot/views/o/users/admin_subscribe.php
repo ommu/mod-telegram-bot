@@ -1,8 +1,8 @@
 <?php
 /**
- * Telegrambot User Histories (telegrambot-user-history)
- * @var $this UserhistoryController
- * @var $model TelegrambotUserHistory
+ * Telegrambot Users (telegrambot-users)
+ * @var $this UsersController
+ * @var $model TelegrambotUsers
  * @var $form CActiveForm
  * version: 0.0.1
  *
@@ -15,21 +15,22 @@
  */
 
 	$this->breadcrumbs=array(
-		'Telegrambot User Histories'=>array('manage'),
-		'Headline',
+		'Telegrambot Users'=>array('manage'),
+		'Publish',
 	);
 ?>
 
 <?php $form=$this->beginWidget('application.components.system.OActiveForm', array(
-	'id'=>'telegrambot-user-history-form',
+	'id'=>'telegrambot-users-form',
 	'enableAjaxValidation'=>true,
 	//'htmlOptions' => array('enctype' => 'multipart/form-data')
 )); ?>
 
 	<div class="dialog-content">
-		<?php echo Yii::t('phrase', 'Are you sure you want to headline this item?');?>	</div>
+		<?php echo $model->status == 1 ? Yii::t('phrase', 'Are you sure you want to unsubscribe this item?') : Yii::t('phrase', 'Are you sure you want to subscribe this item?')?>
+	</div>
 	<div class="dialog-submit">
-		<?php echo CHtml::submitButton(Yii::t('phrase', 'Headline'), array('onclick' => 'setEnableSave()')); ?>
+		<?php echo CHtml::submitButton($title, array('onclick' => 'setEnableSave()')); ?>
 		<?php echo CHtml::button(Yii::t('phrase', 'Cancel'), array('id'=>'closed')); ?>
 	</div>
 	

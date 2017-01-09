@@ -14,6 +14,10 @@ plugin_menu		:
 	- urlTitle: Settings
 		urlRules: {siteType: 0,1, userLevel: 1,2}
 		urlPath: {url: o/setting/index, attr: -, icon: -}
+		submenu :
+			- urlTitle: Users
+				urlRules: {siteType: 0,1, userLevel: 1,2}
+				urlPath: {url: o/users/manage, attr: -, icon: -}
 
 content_menu	:
 # controller o/setting
@@ -26,3 +30,8 @@ content_menu	:
 	- urlTitle: Back to Setting Manage
 		urlRules: {telegrambot, o/setting, add,edit,view, siteType: 0,1, userLevel: 1,2}
 		urlPath: {url: manage, attr: -, icon: -}
+        
+# controller o/users
+	- urlTitle: Add User
+		urlRules: {telegrambot, o/users, manage, siteType: 0,1, userLevel: 1,2}
+		urlPath: {url: add, attr: -, icon: -}

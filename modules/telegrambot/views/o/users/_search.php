@@ -26,8 +26,8 @@
 		</li>
 
 		<li>
-			<?php echo $model->getAttributeLabel('subscribe'); ?><br/>
-			<?php echo $form->textField($model,'subscribe'); ?>
+			<?php echo $model->getAttributeLabel('status'); ?><br/>
+			<?php echo $form->textField($model,'status'); ?>
 		</li>
 
 		<li>
