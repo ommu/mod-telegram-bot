@@ -39,6 +39,11 @@
 class TelegrambotCommands extends CActiveRecord
 {
 	public $defaultColumns = array();
+	
+	// Variable Search
+	public $setting_search;
+	public $creation_search;
+	public $modified_search;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -67,14 +72,15 @@ class TelegrambotCommands extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('setting_id, command_name, command_desc, creation_date, creation_id, modified_id', 'required'),
+			array('setting_id, command_name, command_desc', 'required'),
 			array('publish, setting_id', 'numerical', 'integerOnly'=>true),
 			array('command_name', 'length', 'max'=>8),
 			array('creation_id, modified_id', 'length', 'max'=>11),
-			array('modified_date', 'safe'),
+			array('', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('command_id, publish, setting_id, command_name, command_desc, creation_date, creation_id, modified_date, modified_id', 'safe', 'on'=>'search'),
+			array('command_id, publish, setting_id, command_name, command_desc, creation_date, creation_id, modified_date, modified_id,
+				setting_search, creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -86,7 +92,9 @@ class TelegrambotCommands extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'setting_relation' => array(self::BELONGS_TO, 'OmmuTelegrambotSettings', 'setting_id'),
+			'setting' => array(self::BELONGS_TO, 'TelegrambotSettings', 'setting_id'),
+			'creation' => array(self::BELONGS_TO, 'Users', 'creation_id'),
+			'modified' => array(self::BELONGS_TO, 'Users', 'modified_id'),
 		);
 	}
 
@@ -105,6 +113,9 @@ class TelegrambotCommands extends CActiveRecord
 			'creation_id' => Yii::t('attribute', 'Creation'),
 			'modified_date' => Yii::t('attribute', 'Modified Date'),
 			'modified_id' => Yii::t('attribute', 'Modified'),
+			'setting_search' => Yii::t('attribute', 'Setting'),
+			'creation_search' => Yii::t('attribute', 'Creation'),
+			'modified_search' => Yii::t('attribute', 'Modified'),
 		);
 		/*
 			'Command' => 'Command',
@@ -137,6 +148,22 @@ class TelegrambotCommands extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
+		
+		// Custom Search
+		$criteria->with = array(
+			'setting' => array(
+				'alias'=>'setting',
+				'select'=>'bot_username',
+			),
+			'creation' => array(
+				'alias'=>'creation',
+				'select'=>'displayname',
+			),
+			'modified' => array(
+				'alias'=>'modified',
+				'select'=>'displayname',
+			),
+		);
 
 		$criteria->compare('t.command_id',$this->command_id);
 		if(isset($_GET['type']) && $_GET['type'] == 'publish')
@@ -167,6 +194,10 @@ class TelegrambotCommands extends CActiveRecord
 			$criteria->compare('t.modified_id',$_GET['modified']);
 		else
 			$criteria->compare('t.modified_id',$this->modified_id);
+		
+		$criteria->compare('setting.bot_username',strtolower($this->setting_search), true);
+		$criteria->compare('creation.displayname',strtolower($this->creation_search), true);
+		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
 
 		if(!isset($_GET['TelegrambotCommands_sort']))
 			$criteria->order = 't.command_id DESC';
@@ -228,23 +259,16 @@ class TelegrambotCommands extends CActiveRecord
 				'header' => 'No',
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
-			if(!isset($_GET['type'])) {
-				$this->defaultColumns[] = array(
-					'name' => 'publish',
-					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("publish",array("id"=>$data->command_id)), $data->publish, 1)',
-					'htmlOptions' => array(
-						'class' => 'center',
-					),
-					'filter'=>array(
-						1=>Yii::t('phrase', 'Yes'),
-						0=>Yii::t('phrase', 'No'),
-					),
-					'type' => 'raw',
-				);
-			}
-			$this->defaultColumns[] = 'setting_id';
+			$this->defaultColumns[] = array(
+				'name' => 'setting_search',
+				'value' => '$data->setting->bot_username',
+			);
 			$this->defaultColumns[] = 'command_name';
 			$this->defaultColumns[] = 'command_desc';
+			$this->defaultColumns[] = array(
+				'name' => 'creation_search',
+				'value' => '$data->creation->displayname',
+			);
 			$this->defaultColumns[] = array(
 				'name' => 'creation_date',
 				'value' => 'Utility::dateFormat($data->creation_date)',
@@ -271,34 +295,20 @@ class TelegrambotCommands extends CActiveRecord
 					),
 				), true),
 			);
-			$this->defaultColumns[] = 'creation_id';
-			$this->defaultColumns[] = array(
-				'name' => 'modified_date',
-				'value' => 'Utility::dateFormat($data->modified_date)',
-				'htmlOptions' => array(
-					'class' => 'center',
-				),
-				'filter' => Yii::app()->controller->widget('zii.widgets.jui.CJuiDatePicker', array(
-					'model'=>$this,
-					'attribute'=>'modified_date',
-					'language' => 'ja',
-					'i18nScriptFile' => 'jquery.ui.datepicker-en.js',
-					//'mode'=>'datetime',
+			if(!isset($_GET['type'])) {
+				$this->defaultColumns[] = array(
+					'name' => 'publish',
+					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("publish",array("id"=>$data->command_id)), $data->publish, 1)',
 					'htmlOptions' => array(
-						'id' => 'modified_date_filter',
+						'class' => 'center',
 					),
-					'options'=>array(
-						'showOn' => 'focus',
-						'dateFormat' => 'dd-mm-yy',
-						'showOtherMonths' => true,
-						'selectOtherMonths' => true,
-						'changeMonth' => true,
-						'changeYear' => true,
-						'showButtonPanel' => true,
+					'filter'=>array(
+						1=>Yii::t('phrase', 'Yes'),
+						0=>Yii::t('phrase', 'No'),
 					),
-				), true),
-			);
-			$this->defaultColumns[] = 'modified_id';
+					'type' => 'raw',
+				);
+			}
 		}
 		parent::afterConstruct();
 	}
@@ -323,68 +333,19 @@ class TelegrambotCommands extends CActiveRecord
 	/**
 	 * before validate attributes
 	 */
-	/*
 	protected function beforeValidate() {
 		if(parent::beforeValidate()) {
-			// Create action
+			$setting = TelegrambotSettings::getSetting(1);
+				
+			if($this->isNewRecord) {
+				if($setting != null && count($setting) == 1)
+					$this->setting_id = $setting[0]->setting_id;
+				$this->creation_id = Yii::app()->user->id;
+				
+			} else
+				$this->modified_id = Yii::app()->user->id;
 		}
 		return true;
 	}
-	*/
-
-	/**
-	 * after validate attributes
-	 */
-	/*
-	protected function afterValidate()
-	{
-		parent::afterValidate();
-			// Create action
-		return true;
-	}
-	*/
-	
-	/**
-	 * before save attributes
-	 */
-	/*
-	protected function beforeSave() {
-		if(parent::beforeSave()) {
-		}
-		return true;	
-	}
-	*/
-	
-	/**
-	 * After save attributes
-	 */
-	/*
-	protected function afterSave() {
-		parent::afterSave();
-		// Create action
-	}
-	*/
-
-	/**
-	 * Before delete attributes
-	 */
-	/*
-	protected function beforeDelete() {
-		if(parent::beforeDelete()) {
-			// Create action
-		}
-		return true;
-	}
-	*/
-
-	/**
-	 * After delete attributes
-	 */
-	/*
-	protected function afterDelete() {
-		parent::afterDelete();
-		// Create action
-	}
-	*/
 
 }

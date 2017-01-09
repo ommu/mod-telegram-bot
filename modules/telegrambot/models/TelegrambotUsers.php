@@ -78,7 +78,7 @@ class TelegrambotUsers extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('status, setting_id, telegram_id, telegram_first_name', 'required'),
+			array('setting_id, telegram_id, telegram_first_name', 'required'),
 			array('status, setting_id', 'numerical', 'integerOnly'=>true),
 			array('user_id, telegram_id, creation_id, modified_id', 'length', 'max'=>11),
 			array('telegram_username', 'length', 'max'=>32),

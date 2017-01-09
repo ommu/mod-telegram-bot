@@ -34,6 +34,7 @@
 			<?php echo $form->labelEx($model,'setting_id'); ?>
 			<div class="desc">
 				<?php 
+				//echo $form->textField($model,'setting_id');
 				if(!empty($setting))
 					echo $form->dropDownList($model,'setting_id', $setting);
 				else
