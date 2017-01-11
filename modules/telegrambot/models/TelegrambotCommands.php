@@ -259,12 +259,12 @@ class TelegrambotCommands extends CActiveRecord
 				'header' => 'No',
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
-			$this->defaultColumns[] = array(
-				'name' => 'setting_search',
-				'value' => '$data->setting->bot_username',
-			);
 			$this->defaultColumns[] = 'command_name';
 			$this->defaultColumns[] = 'command_desc';
+			$this->defaultColumns[] = array(
+				'name' => 'setting_search',
+				'value' => '"@".$data->setting->bot_username',
+			);
 			$this->defaultColumns[] = array(
 				'name' => 'creation_search',
 				'value' => '$data->creation->displayname',

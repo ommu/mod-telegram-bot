@@ -133,6 +133,15 @@
 	</div>
 
 	<div class="clearfix">
+		<?php echo $form->labelEx($model,'default'); ?>
+		<div class="desc">
+			<?php echo $form->checkBox($model,'default'); ?>
+			<?php echo $form->error($model,'default'); ?>
+			<?php /*<div class="small-px silent"></div>*/?>
+		</div>
+	</div>
+
+	<div class="clearfix">
 		<?php echo $form->labelEx($model,'publish'); ?>
 		<div class="desc">
 			<?php echo $form->checkBox($model,'publish'); ?>

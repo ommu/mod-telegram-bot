@@ -25,6 +25,7 @@
  * The followings are the available columns in table 'ommu_telegrambot_settings':
  * @property integer $setting_id
  * @property integer $publish
+ * @property integer $default
  * @property string $bot_username
  * @property string $bot_token
  * @property string $bot_name
@@ -76,14 +77,14 @@ class TelegrambotSettings extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('publish, bot_username, bot_token, bot_name, webhook_url', 'required'),
-			array('publish, webhook_max_connections', 'numerical', 'integerOnly'=>true),
+			array('publish, default, bot_username, bot_token, bot_name, webhook_url', 'required'),
+			array('publish, default, webhook_max_connections', 'numerical', 'integerOnly'=>true),
 			array('bot_username, bot_name', 'length', 'max'=>32),
 			array('modified_id', 'length', 'max'=>11),
 			array('bot_description, bot_about_text, bot_userpic, webhook_certificate, webhook_max_connections, webhook_allowed_updates', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('setting_id, publish, bot_username, bot_token, bot_name, bot_description, bot_about_text, bot_userpic, webhook_url, webhook_certificate, webhook_max_connections, webhook_allowed_updates, modified_date, modified_id,
+			array('setting_id, publish, default, bot_username, bot_token, bot_name, bot_description, bot_about_text, bot_userpic, webhook_url, webhook_certificate, webhook_max_connections, webhook_allowed_updates, modified_date, modified_id,
 				modified_search', 'safe', 'on'=>'search'),
 		);
 	}
@@ -110,6 +111,7 @@ class TelegrambotSettings extends CActiveRecord
 		return array(
 			'setting_id' => Yii::t('attribute', 'Setting'),
 			'publish' => Yii::t('attribute', 'Publish'),
+			'default' => Yii::t('attribute', 'Default'),
 			'bot_username' => Yii::t('attribute', 'Username'),
 			'bot_token' => Yii::t('attribute', 'Token'),
 			'bot_name' => Yii::t('attribute', 'Name'),
@@ -180,6 +182,7 @@ class TelegrambotSettings extends CActiveRecord
 			$criteria->addInCondition('t.publish',array(0,1));
 			$criteria->compare('t.publish',$this->publish);
 		}
+		$criteria->compare('t.default',$this->default);
 		$criteria->compare('t.bot_username',strtolower($this->bot_username),true);
 		$criteria->compare('t.bot_token',strtolower($this->bot_token),true);
 		$criteria->compare('t.bot_name',strtolower($this->bot_name),true);
@@ -230,6 +233,7 @@ class TelegrambotSettings extends CActiveRecord
 		} else {
 			//$this->defaultColumns[] = 'setting_id';
 			$this->defaultColumns[] = 'publish';
+			$this->defaultColumns[] = 'default';
 			$this->defaultColumns[] = 'bot_username';
 			$this->defaultColumns[] = 'bot_token';
 			$this->defaultColumns[] = 'bot_name';
@@ -304,6 +308,18 @@ class TelegrambotSettings extends CActiveRecord
 			);
 			if(!isset($_GET['type'])) {
 				$this->defaultColumns[] = array(
+					'name' => 'default',
+					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("default",array("id"=>$data->setting_id)), $data->default, 1)',
+					'htmlOptions' => array(
+						'class' => 'center',
+					),
+					'filter'=>array(
+						1=>Yii::t('phrase', 'Yes'),
+						0=>Yii::t('phrase', 'No'),
+					),
+					'type' => 'raw',
+				);
+				$this->defaultColumns[] = array(
 					'name' => 'publish',
 					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("publish",array("id"=>$data->setting_id)), $data->publish, 1)',
 					'htmlOptions' => array(
@@ -368,6 +384,9 @@ class TelegrambotSettings extends CActiveRecord
 	 */
 	protected function beforeValidate() {
 		if(parent::beforeValidate()) {
+			if($this->default == 1 && $this->publish == 0)
+				$this->addError('publish', Yii::t('phrase', 'Default hanya digunakan untuk BOT Setting yang dalam kondisi terpublish'));
+			
 			$this->modified_id = Yii::app()->user->id;
 		}
 		return true;

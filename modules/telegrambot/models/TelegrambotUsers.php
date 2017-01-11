@@ -289,10 +289,6 @@ class TelegrambotUsers extends CActiveRecord
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
 			$this->defaultColumns[] = array(
-				'name' => 'setting_search',
-				'value' => '$data->setting->bot_username',
-			);
-			$this->defaultColumns[] = array(
 				'name' => 'user_search',
 				'value' => '$data->user_id != 0 ? $data->user->displayname : "-"',
 			);
@@ -309,6 +305,10 @@ class TelegrambotUsers extends CActiveRecord
 			);
 			$this->defaultColumns[] = 'telegram_first_name';
 			$this->defaultColumns[] = 'telegram_last_name';
+			$this->defaultColumns[] = array(
+				'name' => 'setting_search',
+				'value' => '"@".$data->setting->bot_username',
+			);
 			$this->defaultColumns[] = array(
 				'header' => Yii::t('phrase', 'Subscribe'),
 				'value' => 'CHtml::link($data->view->subscribes, Yii::app()->controller->createUrl("o/userhistory/manage",array(\'subscribe\'=>$data->subscribe_id, \'type\'=>\'subscribe\')))',

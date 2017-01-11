@@ -12,6 +12,7 @@ class TelegrambotModule extends CWebModule
 		$this->setImport(array(
 			'telegrambot.models.*',
 			'telegrambot.components.*',
+			'telegrambot.components.system.*',
 		));
 	}
 
@@ -22,6 +23,7 @@ class TelegrambotModule extends CWebModule
 			//list public controller in this module
 			$publicControllers = array(
 				'site',
+				'nanudebot',
 			);
 			
 			// pake ini untuk set theme per action di controller..
