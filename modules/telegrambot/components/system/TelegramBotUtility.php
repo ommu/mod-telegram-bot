@@ -36,7 +36,7 @@ class TelegramBotUtility
 			$parameters["method"] = $method;
 		
 		if($type != 'webhook') {
-			file_put_contents('telebot_url.txt', $url);
+			//file_put_contents('telebot_url.txt', $url);
 			
 			$handle = curl_init();
 			curl_setopt($handle, CURLOPT_URL, $url);
@@ -54,14 +54,14 @@ class TelegramBotUtility
 			$response = curl_exec($handle);	
 	 
 			if($response === false) {
-				file_put_contents('exec_response_false.txt', $response);
+				//file_put_contents('exec_response_false.txt', $response);
 				$errno = curl_errno($handle);
 				$error = curl_error($handle);
 				error_log("Curl returned error $errno: $error\n");
 				curl_close($handle);
 				return false;
-			} else
-				file_put_contents('exec_response_true.txt', $response);
+			} //else
+				//file_put_contents('exec_response_true.txt', $response);
 			
 			$http_code = intval(curl_getinfo($handle, CURLINFO_HTTP_CODE));
 			curl_close($handle);
