@@ -16,7 +16,7 @@
 class TelegramBotUtility
 {
 	public function getRequest($token, $method, $parameters, $type=null) 
-	{		
+	{
 		if(!is_string($method)) {
 			error_log("Method name must be a string\n");
 			return false;
@@ -91,6 +91,63 @@ class TelegramBotUtility
 			header("Content-Type: application/json");
 			echo json_encode($parameters);
 			return true;
+		}
+	}
+	public function insertTelegramBotUser($setting_id, $message) 
+	{
+		if(!is_string($setting_id)) {
+			error_log("Setting must be a string\n");
+			return false;
+		}
+ 
+		if(!$message)
+			$message = array();
+		else if (!is_array($message)) {
+			error_log("Messages must be an array\n");
+			return false;
+		}
+		
+		/*
+		$message_id = $message['message_id'];
+		$from_id = $message['from']['id'];
+		$from_first_name = $message['from']['first_name'];
+		$from_last_name = $message['from']['last_name'];
+		$from_username = $message['from']['username'];
+		$chat_id = $message['chat']['id'];
+		$chat_first_name = $message['chat']['first_name'];
+		$chat_last_name = $message['chat']['last_name'];
+		$chat_username = $message['chat']['username'];
+		$chat_title = $message['chat']['title'];
+		$chat_type = $message['chat']['type'];
+		*/
+		
+		$findUser = TelegrambotUsers::model()->findByAttributes(array('setting_id' => $setting_id, 'telegram_id' => $message['chat']['id']), array(
+			'select' => 'status, subscribe_id, user_id, telegram_first_name, telegram_last_name, telegram_username',
+		));
+		if($findUser == null) {
+			$newUser = new TelegrambotUsers;
+			$newUser->setting_id = $setting_id;
+			$newUser->telegram_id = $message['chat']['id'];
+			if($message['chat']['type'] == 'private') {
+				$newUser->telegram_first_name = $message['chat']['first_name'];
+				$newUser->telegram_last_name = $message['chat']['last_name'];
+				$newUser->telegram_username = $message['chat']['username'];
+			} else
+				$newUser->telegram_first_name = $message['chat']['title'];
+			$newUser->telegram_type = $message['chat']['type'];
+			$newUser->save();
+			
+		} else {
+			if($message['chat']['type'] == 'private') {
+				if($findUser->telegram_first_name != $message['chat']['first_name'])
+					$findUser->telegram_first_name = $message['chat']['first_name'];
+				if($findUser->telegram_last_name != $message['chat']['last_name'])
+					$findUser->telegram_last_name = $message['chat']['last_name'];
+				if($findUser->telegram_username != $message['chat']['username'])
+					$findUser->telegram_username = $message['chat']['username'];
+			} else
+				$findUser->telegram_first_name = $message['chat']['title'];			
+			$findUser->update();
 		}
 	}
 }

@@ -31,6 +31,7 @@
  * @property string $telegram_first_name
  * @property string $telegram_last_name
  * @property string $telegram_username
+ * @property string $telegram_type
  * @property string $subscribe_date
  * @property string $creation_date
  * @property string $creation_id
@@ -78,14 +79,14 @@ class TelegrambotUsers extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('setting_id, telegram_id, telegram_first_name', 'required'),
+			array('setting_id, telegram_id, telegram_first_name, telegram_type', 'required'),
 			array('status, setting_id', 'numerical', 'integerOnly'=>true),
 			array('user_id, telegram_id, creation_id, modified_id', 'length', 'max'=>11),
 			array('telegram_username', 'length', 'max'=>32),
-			array('user_id, telegram_last_name, telegram_username', 'safe'),
+			array('user_id, telegram_last_name, telegram_username, telegram_type', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('subscribe_id, status, setting_id, user_id, telegram_id, telegram_first_name, telegram_last_name, telegram_username, subscribe_date, creation_date, creation_id, modified_date, modified_id,
+			array('subscribe_id, status, setting_id, user_id, telegram_id, telegram_first_name, telegram_last_name, telegram_username, telegram_type, subscribe_date, creation_date, creation_id, modified_date, modified_id,
 				setting_search, user_search, creation_search, modified_search', 'safe', 'on'=>'search'),
 		);
 	}
@@ -121,6 +122,7 @@ class TelegrambotUsers extends CActiveRecord
 			'telegram_first_name' => Yii::t('attribute', 'First Name'),
 			'telegram_last_name' => Yii::t('attribute', 'Last Name'),
 			'telegram_username' => Yii::t('attribute', 'Username'),
+			'telegram_type' => Yii::t('attribute', 'Type'),
 			'subscribe_date' => Yii::t('attribute', 'Subscribe Date'),
 			'creation_date' => Yii::t('attribute', 'Creation Date'),
 			'creation_id' => Yii::t('attribute', 'Creation'),
@@ -204,6 +206,7 @@ class TelegrambotUsers extends CActiveRecord
 		$criteria->compare('t.telegram_first_name',strtolower($this->telegram_first_name),true);
 		$criteria->compare('t.telegram_last_name',strtolower($this->telegram_last_name),true);
 		$criteria->compare('t.telegram_username',strtolower($this->telegram_username),true);
+		$criteria->compare('t.telegram_type',strtolower($this->telegram_type),true);
 		if($this->subscribe_date != null && !in_array($this->subscribe_date, array('0000-00-00 00:00:00', '0000-00-00')))
 			$criteria->compare('date(t.subscribe_date)',date('Y-m-d', strtotime($this->subscribe_date)));
 		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
@@ -261,6 +264,7 @@ class TelegrambotUsers extends CActiveRecord
 			$this->defaultColumns[] = 'telegram_first_name';
 			$this->defaultColumns[] = 'telegram_last_name';
 			$this->defaultColumns[] = 'telegram_username';
+			$this->defaultColumns[] = 'telegram_type';
 			$this->defaultColumns[] = 'subscribe_date';
 			$this->defaultColumns[] = 'creation_date';
 			$this->defaultColumns[] = 'creation_id';
@@ -322,6 +326,18 @@ class TelegrambotUsers extends CActiveRecord
 				'value' => 'CHtml::link($data->view->subscribe_history, Yii::app()->controller->createUrl("o/userhistory/manage",array(\'subscribe\'=>$data->subscribe_id)))',
 				'htmlOptions' => array(
 					'class' => 'center',
+				),
+				'type' => 'raw',
+			);
+			$this->defaultColumns[] = array(
+				'name' => 'telegram_type',
+				'value' => '$data->telegram_type',
+				'htmlOptions' => array(
+					'class' => 'center',
+				),
+				'filter'=>array(
+					'private'=>Yii::t('phrase', 'Private'),
+					'group'=>Yii::t('phrase', 'Group'),
 				),
 				'type' => 'raw',
 			);
