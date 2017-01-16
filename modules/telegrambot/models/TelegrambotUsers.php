@@ -81,7 +81,8 @@ class TelegrambotUsers extends CActiveRecord
 		return array(
 			array('setting_id, telegram_id, telegram_first_name, telegram_type', 'required'),
 			array('status, setting_id', 'numerical', 'integerOnly'=>true),
-			array('user_id, telegram_id, creation_id, modified_id', 'length', 'max'=>11),
+			array('user_id, creation_id, modified_id', 'length', 'max'=>11),
+			array('telegram_id', 'length', 'max'=>16),
 			array('telegram_username', 'length', 'max'=>32),
 			array('user_id, telegram_last_name, telegram_username, telegram_type', 'safe'),
 			// The following rule is used by search().
