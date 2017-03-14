@@ -3,6 +3,11 @@
 class TelegrambotModule extends CWebModule
 {
 	public $defaultController = 'contact'; 
+	
+	// getAssetsUrl()
+	//	return the URL for this module's assets, performing the publish operation
+	//	the first time, and caching the result for subsequent use.
+	private $_assetsUrl;
 
 	public function init() {
 		// this method is called when the module is being created
@@ -14,6 +19,14 @@ class TelegrambotModule extends CWebModule
 			'telegrambot.components.*',
 			'telegrambot.components.system.*',
 		));
+	}
+ 
+	public function getAssetsUrl()
+	{
+		if ($this->_assetsUrl === null)
+			$this->_assetsUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('telegrambot.assets'));
+		
+		return $this->_assetsUrl;
 	}
 
 	public function beforeControllerAction($controller, $action) {
