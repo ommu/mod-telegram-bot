@@ -230,7 +230,7 @@ class TelegrambotUserHistory extends CActiveRecord
 					'model'=>$this,
 					'attribute'=>'status_date',
 					'language' => 'en',
-					'i18nScriptFile' => 'jquery-ui-i18n.min.js'
+					'i18nScriptFile' => 'jquery-ui-i18n.min.js',
 					//'mode'=>'datetime',
 					'htmlOptions' => array(
 						'id' => 'status_date_filter',
