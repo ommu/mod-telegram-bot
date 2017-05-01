@@ -9,7 +9,7 @@
  * @version 1.0
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
  * @link https://github.com/ommu/TelegramBot
- * @contect (+62)856-299-4114
+ * @contact (+62)856-299-4114
  *
  */
 
