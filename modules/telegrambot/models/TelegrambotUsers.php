@@ -6,7 +6,7 @@
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
  * @created date 7 January 2017, 01:59 WIB
- * @link https://github.com/ommu/TelegramBot
+ * @link https://github.com/ommu/mod-telegram-bot
  * @contact (+62)856-299-4114
  *
  * This is the template for generating the model class of a specified table.
@@ -134,22 +134,6 @@ class TelegrambotUsers extends CActiveRecord
 			'creation_search' => Yii::t('attribute', 'Creation'),
 			'modified_search' => Yii::t('attribute', 'Modified'),
 		);
-		/*
-			'Subscribe' => 'Subscribe',
-			'Subscribe' => 'Subscribe',
-			'Setting' => 'Setting',
-			'User' => 'User',
-			'Telegram' => 'Telegram',
-			'Telegram First Name' => 'Telegram First Name',
-			'Telegram Last Name' => 'Telegram Last Name',
-			'Telegram Username' => 'Telegram Username',
-			'Subscribe Date' => 'Subscribe Date',
-			'Creation Date' => 'Creation Date',
-			'Creation' => 'Creation',
-			'Modified Date' => 'Modified Date',
-			'Modified' => 'Modified',
-		
-		*/
 	}
 
 	/**

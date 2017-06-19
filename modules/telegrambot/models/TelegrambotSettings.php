@@ -6,7 +6,7 @@
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
  * @created date 7 January 2017, 01:58 WIB
- * @link https://github.com/ommu/TelegramBot
+ * @link https://github.com/ommu/mod-telegram-bot
  * @contact (+62)856-299-4114
  *
  * This is the template for generating the model class of a specified table.
@@ -126,23 +126,6 @@ class TelegrambotSettings extends CActiveRecord
 			'modified_id' => Yii::t('attribute', 'Modified'),
 			'modified_search' => Yii::t('attribute', 'Modified'),
 		);
-		/*
-			'Setting' => 'Setting',
-			'Publish' => 'Publish',
-			'Bot Username' => 'Bot Username',
-			'Bot Token' => 'Bot Token',
-			'Bot Name' => 'Bot Name',
-			'Bot Description' => 'Bot Description',
-			'Bot About Text' => 'Bot About Text',
-			'Bot Userpic' => 'Bot Userpic',
-			'Webhook Url' => 'Webhook Url',
-			'Webhook Certificate' => 'Webhook Certificate',
-			'Webhook Max Connections' => 'Webhook Max Connections',
-			'Webhook Allowed Updates' => 'Webhook Allowed Updates',
-			'Modified Date' => 'Modified Date',
-			'Modified' => 'Modified',
-		
-		*/
 	}
 
 	/**

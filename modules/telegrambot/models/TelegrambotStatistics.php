@@ -6,7 +6,7 @@
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
  * @created date 7 January 2017, 01:59 WIB
- * @link https://github.com/ommu/TelegramBot
+ * @link https://github.com/ommu/mod-telegram-bot
  * @contact (+62)856-299-4114
  *
  * This is the template for generating the model class of a specified table.
@@ -88,12 +88,6 @@ class TelegrambotStatistics extends CActiveRecord
 			'flag' => Yii::t('attribute', 'Flag'),
 			'note' => Yii::t('attribute', 'Note'),
 		);
-		/*
-			'Statistic Key' => 'Statistic Key',
-			'Flag' => 'Flag',
-			'Note' => 'Note',
-		
-		*/
 	}
 
 	/**

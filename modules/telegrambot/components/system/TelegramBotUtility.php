@@ -6,9 +6,9 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @created date 10 January 2017, 01:38 WIB
- * @version 1.0
+ * version: 0.0.1
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
- * @link https://github.com/ommu/TelegramBot
+ * @link https://github.com/ommu/mod-telegram-bot
  * @contact (+62)856-299-4114
  *
  */
