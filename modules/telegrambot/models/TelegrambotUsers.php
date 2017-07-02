@@ -39,8 +39,8 @@
  * @property string $modified_id
  *
  * The followings are the available model relations:
- * @property OmmuTelegrambotUserHistory[] $ommuTelegrambotUserHistories
- * @property OmmuTelegrambotSettings $setting
+ * @property TelegrambotUserHistory[] $TelegrambotUserHistories
+ * @property TelegrambotSettings $setting
  */
 class TelegrambotUsers extends CActiveRecord
 {

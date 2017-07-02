@@ -29,7 +29,7 @@
  * @property string $status_date
  *
  * The followings are the available model relations:
- * @property OmmuTelegrambotUsers $subscribe
+ * @property TelegrambotUsers $subscribe
  */
 class TelegrambotUserHistory extends CActiveRecord
 {
