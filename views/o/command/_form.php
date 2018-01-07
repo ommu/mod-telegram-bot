@@ -29,43 +29,43 @@
 		<?php //begin.Messages ?>
 
 		<?php if(empty($setting) || (!empty($setting) && count($setting) > 1)) {?>
-		<div class="clearfix">
-			<?php echo $form->labelEx($model,'setting_id'); ?>
-			<div class="desc">
+		<div class="form-group row">
+			<?php echo $form->labelEx($model,'setting_id', array('class'=>'col-form-label col-lg-12 col-md-3 col-sm-12')); ?>
+			<div class="col-lg-8 col-md-9 col-sm-12">
 				<?php 
 				//echo $form->textField($model,'setting_id');
 				if(!empty($setting))
-					echo $form->dropDownList($model,'setting_id', $setting);
+					echo $form->dropDownList($model,'setting_id', $setting, array('class'=>'form-control'));
 				else
-					echo $form->dropDownList($model,'setting_id', array('prompt'=>'Select Bot')); ?>
+					echo $form->dropDownList($model,'setting_id', array('prompt'=>'Select Bot', 'class'=>'form-control')); ?>
 				<?php echo $form->error($model,'setting_id'); ?>
 				<?php /*<div class="small-px silent"></div>*/?>
 			</div>
 		</div>
 		<?php }?>
 
-		<div class="clearfix">
-			<?php echo $form->labelEx($model,'command_name'); ?>
-			<div class="desc">
-				<?php echo $form->textField($model,'command_name',array('maxlength'=>8, 'class'=>'span-7')); ?>
+		<div class="form-group row">
+			<?php echo $form->labelEx($model,'command_name', array('class'=>'col-form-label col-lg-12 col-md-3 col-sm-12')); ?>
+			<div class="col-lg-8 col-md-9 col-sm-12">
+				<?php echo $form->textField($model,'command_name',array('maxlength'=>8, 'class'=>'form-control')); ?>
 				<?php echo $form->error($model,'command_name'); ?>
 				<?php /*<div class="small-px silent"></div>*/?>
 			</div>
 		</div>
 
-		<div class="clearfix">
-			<?php echo $form->labelEx($model,'command_desc'); ?>
-			<div class="desc">
-				<?php echo $form->textArea($model,'command_desc',array('rows'=>6, 'cols'=>50, 'class'=>'span-10 smaller')); ?>
+		<div class="form-group row">
+			<?php echo $form->labelEx($model,'command_desc', array('class'=>'col-form-label col-lg-12 col-md-3 col-sm-12')); ?>
+			<div class="col-lg-8 col-md-9 col-sm-12">
+				<?php echo $form->textArea($model,'command_desc',array('rows'=>6, 'cols'=>50, 'class'=>'form-control')); ?>
 				<?php echo $form->error($model,'command_desc'); ?>
 				<?php /*<div class="small-px silent"></div>*/?>
 			</div>
 		</div>
 
-		<div class="clearfix publish">
-			<?php echo $form->labelEx($model,'publish'); ?>
-			<div class="desc">
-				<?php echo $form->checkBox($model,'publish'); ?>
+		<div class="form-group row publish">
+			<?php echo $form->labelEx($model,'publish', array('class'=>'col-form-label col-lg-12 col-md-3 col-sm-12')); ?>
+			<div class="col-lg-8 col-md-9 col-sm-12">
+				<?php echo $form->checkBox($model,'publish', array('class'=>'form-control')); ?>
 				<?php echo $form->labelEx($model,'publish'); ?>
 				<?php echo $form->error($model,'publish'); ?>
 				<?php /*<div class="small-px silent"></div>*/?>
