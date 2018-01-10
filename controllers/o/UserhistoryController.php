@@ -141,27 +141,25 @@ class UserhistoryController extends Controller
 		
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
-			if(isset($id)) {
-				if($model->delete()) {
-					echo CJSON::encode(array(
-						'type' => 5,
-						'get' => Yii::app()->controller->createUrl('manage'),
-						'id' => 'partial-telegrambot-user-history',
-						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'TelegrambotUserHistory success deleted.').'</strong></div>',
-					));
-				}
+			if($model->delete()) {
+				echo CJSON::encode(array(
+					'type' => 5,
+					'get' => Yii::app()->controller->createUrl('manage'),
+					'id' => 'partial-telegrambot-user-history',
+					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'TelegrambotUserHistory success deleted.').'</strong></div>',
+				));
 			}
-
-		} else {
-			$this->dialogDetail = true;
-			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
-			$this->dialogWidth = 350;
-
-			$this->pageTitle = Yii::t('phrase', 'TelegrambotUserHistory Delete.');
-			$this->pageDescription = '';
-			$this->pageMeta = '';
-			$this->render('/o/user_history/admin_delete');
+			Yii::app()->end();
 		}
+
+		$this->dialogDetail = true;
+		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
+		$this->dialogWidth = 350;
+
+		$this->pageTitle = Yii::t('phrase', 'TelegrambotUserHistory Delete.');
+		$this->pageDescription = '';
+		$this->pageMeta = '';
+		$this->render('/o/user_history/admin_delete');
 	}
 
 	/**

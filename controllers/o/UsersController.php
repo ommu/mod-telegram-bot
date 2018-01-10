@@ -298,27 +298,25 @@ class UsersController extends Controller
 		
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
-			if(isset($id)) {
-				if($model->delete()) {
-					echo CJSON::encode(array(
-						'type' => 5,
-						'get' => Yii::app()->controller->createUrl('manage'),
-						'id' => 'partial-telegrambot-users',
-						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'TelegrambotUsers success deleted.').'</strong></div>',
-					));
-				}
+			if($model->delete()) {
+				echo CJSON::encode(array(
+					'type' => 5,
+					'get' => Yii::app()->controller->createUrl('manage'),
+					'id' => 'partial-telegrambot-users',
+					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'TelegrambotUsers success deleted.').'</strong></div>',
+				));
 			}
-
-		} else {
-			$this->dialogDetail = true;
-			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
-			$this->dialogWidth = 350;
-
-			$this->pageTitle = Yii::t('phrase', 'TelegrambotUsers Delete.');
-			$this->pageDescription = '';
-			$this->pageMeta = '';
-			$this->render('admin_delete');
+			Yii::app()->end();
 		}
+
+		$this->dialogDetail = true;
+		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
+		$this->dialogWidth = 350;
+
+		$this->pageTitle = Yii::t('phrase', 'TelegrambotUsers Delete.');
+		$this->pageDescription = '';
+		$this->pageMeta = '';
+		$this->render('admin_delete');
 	}
 
 	/**
@@ -330,43 +328,37 @@ class UsersController extends Controller
 	{
 		$model=$this->loadModel($id);
 		
-		if($model->status == 1) {
-			$title = Yii::t('phrase', 'Unsubscribe');
-			$replace = 0;
-		} else {
-			$title = Yii::t('phrase', 'Subscribe');
-			$replace = 1;
-		}
+		$title = $model->status == 1 ? Yii::t('phrase', 'Unsubscribe') : Yii::t('phrase', 'Subscribe');
+		$replace = $model->status == 1 ? 0 : 1;
 
 		if(Yii::app()->request->isPostRequest) {
 			// we only allow deletion via POST request
-			if(isset($id)) {
-				//change value active or status
-				$model->status = $replace;
-
-				if($model->update()) {
-					echo CJSON::encode(array(
-						'type' => 5,
-						'get' => Yii::app()->controller->createUrl('manage'),
-						'id' => 'partial-telegrambot-users',
-						'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'TelegrambotUsers success updated.').'</strong></div>',
-					));
-				}
+			//change value active or status
+			$model->status = $replace;
+			$model->modified_id = !Yii::app()->user->isGuest ? Yii::app()->user->id : 0;
+			
+			if($model->update()) {
+				echo CJSON::encode(array(
+					'type' => 5,
+					'get' => Yii::app()->controller->createUrl('manage'),
+					'id' => 'partial-telegrambot-users',
+					'msg' => '<div class="errorSummary success"><strong>'.Yii::t('phrase', 'TelegrambotUsers success updated.').'</strong></div>',
+				));
 			}
-
-		} else {
-			$this->dialogDetail = true;
-			$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
-			$this->dialogWidth = 350;
-
-			$this->pageTitle = $title;
-			$this->pageDescription = '';
-			$this->pageMeta = '';
-			$this->render('admin_subscribe',array(
-				'title'=>$title,
-				'model'=>$model,
-			));
+			Yii::app()->end();
 		}
+
+		$this->dialogDetail = true;
+		$this->dialogGroundUrl = Yii::app()->controller->createUrl('manage');
+		$this->dialogWidth = 350;
+
+		$this->pageTitle = $title;
+		$this->pageDescription = '';
+		$this->pageMeta = '';
+		$this->render('admin_subscribe',array(
+			'title'=>$title,
+			'model'=>$model,
+		));
 	}
 
 	/**
