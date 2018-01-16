@@ -37,7 +37,7 @@
 				if(!empty($setting))
 					echo $form->dropDownList($model,'setting_id', $setting, array('class'=>'form-control'));
 				else
-					echo $form->dropDownList($model,'setting_id', array('prompt'=>'Select Bot', 'class'=>'form-control')); ?>
+					echo $form->dropDownList($model,'setting_id', array('prompt'=>'Select Bot'), array('class'=>'form-control')); ?>
 				<?php echo $form->error($model,'setting_id'); ?>
 				<?php /*<div class="small-px silent"></div>*/?>
 			</div>
