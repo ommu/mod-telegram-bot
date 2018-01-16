@@ -37,7 +37,7 @@
 <fieldset>
 
 	<div class="form-group row">
-		<?php echo $form->labelEx($model,'bot_username', array('class'=>'col-form-label col-lg-12 col-md-3 col-sm-12')); ?>
+		<?php echo $form->labelEx($model,'bot_username', array('class'=>'col-form-label col-lg-4 col-md-3 col-sm-12')); ?>
 		<div class="col-lg-8 col-md-9 col-sm-12">
 			<?php echo $form->textField($model,'bot_username',array('maxlength'=>32, 'class'=>'form-control')); ?>
 			<?php echo $form->error($model,'bot_username'); ?>
@@ -46,7 +46,7 @@
 	</div>
 
 	<div class="form-group row">
-		<?php echo $form->labelEx($model,'bot_token', array('class'=>'col-form-label col-lg-12 col-md-3 col-sm-12')); ?>
+		<?php echo $form->labelEx($model,'bot_token', array('class'=>'col-form-label col-lg-4 col-md-3 col-sm-12')); ?>
 		<div class="col-lg-8 col-md-9 col-sm-12">
 			<?php echo $form->textField($model,'bot_token',array('rows'=>6, 'cols'=>50, 'class'=>'form-control')); ?>
 			<?php echo $form->error($model,'bot_token'); ?>
@@ -55,7 +55,7 @@
 	</div>
 
 	<div class="form-group row">
-		<?php echo $form->labelEx($model,'bot_name', array('class'=>'col-form-label col-lg-12 col-md-3 col-sm-12')); ?>
+		<?php echo $form->labelEx($model,'bot_name', array('class'=>'col-form-label col-lg-4 col-md-3 col-sm-12')); ?>
 		<div class="col-lg-8 col-md-9 col-sm-12">
 			<?php echo $form->textField($model,'bot_name',array('maxlength'=>32, 'class'=>'form-control')); ?>
 			<?php echo $form->error($model,'bot_name'); ?>
@@ -64,7 +64,7 @@
 	</div>
 
 	<div class="form-group row">
-		<?php echo $form->labelEx($model,'bot_description', array('class'=>'col-form-label col-lg-12 col-md-3 col-sm-12')); ?>
+		<?php echo $form->labelEx($model,'bot_description', array('class'=>'col-form-label col-lg-4 col-md-3 col-sm-12')); ?>
 		<div class="col-lg-8 col-md-9 col-sm-12">
 			<?php echo $form->textArea($model,'bot_description',array('rows'=>6, 'cols'=>50, 'class'=>'form-control')); ?>
 			<?php echo $form->error($model,'bot_description'); ?>
@@ -73,7 +73,7 @@
 	</div>
 
 	<div class="form-group row">
-		<?php echo $form->labelEx($model,'bot_about_text', array('class'=>'col-form-label col-lg-12 col-md-3 col-sm-12')); ?>
+		<?php echo $form->labelEx($model,'bot_about_text', array('class'=>'col-form-label col-lg-4 col-md-3 col-sm-12')); ?>
 		<div class="col-lg-8 col-md-9 col-sm-12">
 			<?php echo $form->textArea($model,'bot_about_text',array('rows'=>6, 'cols'=>50, 'class'=>'form-control')); ?>
 			<?php echo $form->error($model,'bot_about_text'); ?>
@@ -82,7 +82,7 @@
 	</div>
 
 	<div class="form-group row">
-		<?php echo $form->labelEx($model,'bot_userpic', array('class'=>'col-form-label col-lg-12 col-md-3 col-sm-12')); ?>
+		<?php echo $form->labelEx($model,'bot_userpic', array('class'=>'col-form-label col-lg-4 col-md-3 col-sm-12')); ?>
 		<div class="col-lg-8 col-md-9 col-sm-12">
 			<?php echo $form->fileField($model,'bot_userpic', array('class'=>'form-control')); ?>
 			<?php echo $form->error($model,'bot_userpic'); ?>
@@ -91,7 +91,7 @@
 	</div>
 
 	<div class="form-group row">
-		<?php echo $form->labelEx($model,'webhook_url', array('class'=>'col-form-label col-lg-12 col-md-3 col-sm-12')); ?>
+		<?php echo $form->labelEx($model,'webhook_url', array('class'=>'col-form-label col-lg-4 col-md-3 col-sm-12')); ?>
 		<div class="col-lg-8 col-md-9 col-sm-12">
 			<?php echo $form->textArea($model,'webhook_url',array('rows'=>6, 'cols'=>50, 'class'=>'form-control')); ?>
 			<?php echo $form->error($model,'webhook_url'); ?>
@@ -100,7 +100,7 @@
 	</div>
 
 	<div class="form-group row">
-		<?php echo $form->labelEx($model,'webhook_certificate', array('class'=>'col-form-label col-lg-12 col-md-3 col-sm-12')); ?>
+		<?php echo $form->labelEx($model,'webhook_certificate', array('class'=>'col-form-label col-lg-4 col-md-3 col-sm-12')); ?>
 		<div class="col-lg-8 col-md-9 col-sm-12">
 			<?php echo $form->textArea($model,'webhook_certificate',array('rows'=>6, 'cols'=>50, 'class'=>'form-control')); ?>
 			<?php echo $form->error($model,'webhook_certificate'); ?>
@@ -109,7 +109,7 @@
 	</div>
 
 	<div class="form-group row">
-		<?php echo $form->labelEx($model,'webhook_max_connections', array('class'=>'col-form-label col-lg-12 col-md-3 col-sm-12')); ?>
+		<?php echo $form->labelEx($model,'webhook_max_connections', array('class'=>'col-form-label col-lg-4 col-md-3 col-sm-12')); ?>
 		<div class="col-lg-8 col-md-9 col-sm-12">
 			<?php
 			if($model->isNewRecord && !$model->getErrors())
@@ -132,7 +132,7 @@
 	</div>
 
 	<div class="form-group row">
-		<?php echo $form->labelEx($model,'default', array('class'=>'col-form-label col-lg-12 col-md-3 col-sm-12')); ?>
+		<?php echo $form->labelEx($model,'default', array('class'=>'col-form-label col-lg-4 col-md-3 col-sm-12')); ?>
 		<div class="col-lg-8 col-md-9 col-sm-12">
 			<?php echo $form->checkBox($model,'default', array('class'=>'form-control')); ?>
 			<?php echo $form->error($model,'default'); ?>
@@ -141,7 +141,7 @@
 	</div>
 
 	<div class="form-group row">
-		<?php echo $form->labelEx($model,'publish', array('class'=>'col-form-label col-lg-12 col-md-3 col-sm-12')); ?>
+		<?php echo $form->labelEx($model,'publish', array('class'=>'col-form-label col-lg-4 col-md-3 col-sm-12')); ?>
 		<div class="col-lg-8 col-md-9 col-sm-12">
 			<?php echo $form->checkBox($model,'publish', array('class'=>'form-control')); ?>
 			<?php echo $form->error($model,'publish'); ?>
