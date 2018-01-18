@@ -128,7 +128,7 @@ class UserhistoryController extends Controller
 			'model'=>$model,
 			'columns' => $columns,
 		));
-	}	
+	}
 
 	/**
 	 * Deletes a particular model.

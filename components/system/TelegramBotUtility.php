@@ -49,7 +49,7 @@ class TelegramBotUtility
 			if($type != null && $type == 'json') {
 				curl_setopt($handle, CURLOPT_POSTFIELDS, json_encode($parameters));	
 				curl_setopt($handle, CURLOPT_HTTPHEADER, array("Content-Type: application/json"));
-			}			
+			}
 			$response = curl_exec($handle);	
 	 
 			if($response === false) {
