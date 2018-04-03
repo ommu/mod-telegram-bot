@@ -1,6 +1,6 @@
 {
 	"name": "ommu/telegrambot",
-	"description": "Module Telegram Bot for Ommu Platform",
+	"description": "Telegram Bot Module for Ommu Platform",
 	"keywords": [
 		"module",
 		"telegram-bot",
