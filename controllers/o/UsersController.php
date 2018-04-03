@@ -334,7 +334,7 @@ class UsersController extends Controller
 			// we only allow deletion via POST request
 			//change value active or status
 			$model->status = $replace;
-			$model->modified_id = !Yii::app()->user->isGuest ? Yii::app()->user->id : 0;
+			$model->modified_id = !Yii::app()->user->isGuest ? Yii::app()->user->id : null;
 			
 			if($model->update()) {
 				echo CJSON::encode(array(
