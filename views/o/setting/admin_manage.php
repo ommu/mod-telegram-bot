@@ -8,7 +8,7 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
  * @created date 7 January 2017, 02:15 WIB
- * @link https://github.com/ommu/ommu-telegram-bot
+ * @link https://github.com/ommu/mod-telegram-bot
  *
  */
 

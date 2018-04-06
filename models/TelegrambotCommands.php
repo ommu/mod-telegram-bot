@@ -6,7 +6,7 @@
  * @contact (+62)856-299-4114
  * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
  * @created date 7 January 2017, 01:58 WIB
- * @link https://github.com/ommu/ommu-telegram-bot
+ * @link https://github.com/ommu/mod-telegram-bot
  *
  * This is the template for generating the model class of a specified table.
  * - $this: the ModelCode object
