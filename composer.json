@@ -7,7 +7,7 @@
 		"telegram",
 		"bot",
 		"ommu",
-		"ommu platform"
+		"ommu-platform"
 	],
 	"homepage": "https://github.com/ommu/mod-telegram-bot",
 	"type": "ommu-module",
