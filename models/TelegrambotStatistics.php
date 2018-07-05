@@ -4,7 +4,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
- * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
+ * @copyright Copyright (c) 2017 Ommu Platform (www.ommu.co)
  * @created date 7 January 2017, 01:59 WIB
  * @link https://github.com/ommu/mod-telegram-bot
  *
@@ -107,11 +107,11 @@ class TelegrambotStatistics extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('t.statistic_key',strtolower($this->statistic_key),true);
-		$criteria->compare('t.flag',$this->flag);
-		$criteria->compare('t.note',strtolower($this->note),true);
+		$criteria->compare('t.statistic_key', strtolower($this->statistic_key), true);
+		$criteria->compare('t.flag', $this->flag);
+		$criteria->compare('t.note', strtolower($this->note), true);
 
-		if(!isset($_GET['TelegrambotStatistics_sort']))
+		if(!Yii::app()->getRequest()->getParam('TelegrambotStatistics_sort'))
 			$criteria->order = 't.statistic_key DESC';
 
 		return new CActiveDataProvider($this, array(
@@ -177,7 +177,7 @@ class TelegrambotStatistics extends CActiveRecord
 	public static function getInfo($id, $column=null)
 	{
 		if($column != null) {
-			$model = self::model()->findByPk($id,array(
+			$model = self::model()->findByPk($id, array(
 				'select' => $column,
 			));
  			if(count(explode(',', $column)) == 1)

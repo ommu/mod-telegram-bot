@@ -4,7 +4,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
- * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
+ * @copyright Copyright (c) 2017 Ommu Platform (www.ommu.co)
  * @created date 7 January 2017, 01:59 WIB
  * @link https://github.com/ommu/mod-telegram-bot
  *
@@ -135,23 +135,23 @@ class TelegrambotUserHistory extends CActiveRecord
 			),
 		);
 
-		$criteria->compare('t.id',strtolower($this->id),true);
-		if(isset($_GET['subscribe']))
-			$criteria->compare('t.subscribe_id',$_GET['subscribe']);
+		$criteria->compare('t.id', strtolower($this->id), true);
+		if(Yii::app()->getRequest()->getParam('subscribe'))
+			$criteria->compare('t.subscribe_id', Yii::app()->getRequest()->getParam('subscribe'));
 		else
-			$criteria->compare('t.subscribe_id',$this->subscribe_id);
-		if(isset($_GET['type']) && $_GET['type'] == 'subscribe')
+			$criteria->compare('t.subscribe_id', $this->subscribe_id);
+		if(Yii::app()->getRequest()->getParam('type') == 'subscribe')
 			$criteria->compare('t.status',1);
 		else
-			$criteria->compare('t.status',$this->status);
-		if($this->status_date != null && !in_array($this->status_date, array('0000-00-00 00:00:00', '0000-00-00')))
-			$criteria->compare('date(t.status_date)',date('Y-m-d', strtotime($this->status_date)));
+			$criteria->compare('t.status', $this->status);
+		if($this->status_date != null && !in_array($this->status_date, array('0000-00-00 00:00:00','1970-01-01 00:00:00','0002-12-02 07:07:12','-0001-11-30 00:00:00')))
+			$criteria->compare('date(t.status_date)', date('Y-m-d', strtotime($this->status_date)));
 		
-		$criteria->compare('user.displayname',strtolower($this->user_search), true);
-		$criteria->compare('subscribe.telegram_id',strtolower($this->telegram_search), true);
-		$criteria->compare('subscribe.telegram_username',strtolower($this->username_search), true);
+		$criteria->compare('user.displayname', strtolower($this->user_search), true);
+		$criteria->compare('subscribe.telegram_id', strtolower($this->telegram_search), true);
+		$criteria->compare('subscribe.telegram_username', strtolower($this->username_search), true);
 
-		if(!isset($_GET['TelegrambotUserHistory_sort']))
+		if(!Yii::app()->getRequest()->getParam('TelegrambotUserHistory_sort'))
 			$criteria->order = 't.id DESC';
 
 		return new CActiveDataProvider($this, array(
@@ -198,7 +198,7 @@ class TelegrambotUserHistory extends CActiveRecord
 				'header' => 'No',
 				'value' => '$this->grid->dataProvider->pagination->currentPage*$this->grid->dataProvider->pagination->pageSize + $row+1'
 			);
-			if(!isset($_GET['subscribe'])) {
+			if(!Yii::app()->getRequest()->getParam('subscribe')) {
 				$this->defaultColumns[] = array(
 					'name' => 'user_search',
 					'value' => '$data->subscribe->user_id != 0 ? $data->subscribe->user->displayname : "-"',
@@ -229,7 +229,7 @@ class TelegrambotUserHistory extends CActiveRecord
 					),
 					'options'=>array(
 						'showOn' => 'focus',
-						'dateFormat' => 'dd-mm-yy',
+						'dateFormat' => 'yy-mm-dd',
 						'showOtherMonths' => true,
 						'selectOtherMonths' => true,
 						'changeMonth' => true,
@@ -260,7 +260,7 @@ class TelegrambotUserHistory extends CActiveRecord
 	public static function getInfo($id, $column=null)
 	{
 		if($column != null) {
-			$model = self::model()->findByPk($id,array(
+			$model = self::model()->findByPk($id, array(
 				'select' => $column,
 			));
  			if(count(explode(',', $column)) == 1)

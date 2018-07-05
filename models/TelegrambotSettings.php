@@ -4,7 +4,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
- * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
+ * @copyright Copyright (c) 2017 Ommu Platform (www.ommu.co)
  * @created date 7 January 2017, 01:58 WIB
  * @link https://github.com/ommu/mod-telegram-bot
  *
@@ -153,38 +153,38 @@ class TelegrambotSettings extends CActiveRecord
 			),
 		);
 
-		$criteria->compare('t.setting_id',$this->setting_id);
-		if(isset($_GET['type']) && $_GET['type'] == 'publish')
-			$criteria->compare('t.publish',1);
-		elseif(isset($_GET['type']) && $_GET['type'] == 'unpublish')
-			$criteria->compare('t.publish',0);
-		elseif(isset($_GET['type']) && $_GET['type'] == 'trash')
-			$criteria->compare('t.publish',2);
+		$criteria->compare('t.setting_id', $this->setting_id);
+		if(Yii::app()->getRequest()->getParam('type') == 'publish')
+			$criteria->compare('t.publish', 1);
+		elseif(Yii::app()->getRequest()->getParam('type') == 'unpublish')
+			$criteria->compare('t.publish', 0);
+		elseif(Yii::app()->getRequest()->getParam('type') == 'trash')
+			$criteria->compare('t.publish', 2);
 		else {
-			$criteria->addInCondition('t.publish',array(0,1));
-			$criteria->compare('t.publish',$this->publish);
+			$criteria->addInCondition('t.publish', array(0,1));
+			$criteria->compare('t.publish', $this->publish);
 		}
-		$criteria->compare('t.default',$this->default);
-		$criteria->compare('t.bot_username',strtolower($this->bot_username),true);
-		$criteria->compare('t.bot_token',strtolower($this->bot_token),true);
-		$criteria->compare('t.bot_name',strtolower($this->bot_name),true);
-		$criteria->compare('t.bot_description',strtolower($this->bot_description),true);
-		$criteria->compare('t.bot_about_text',strtolower($this->bot_about_text),true);
-		$criteria->compare('t.bot_userpic',strtolower($this->bot_userpic),true);
-		$criteria->compare('t.webhook_url',strtolower($this->webhook_url),true);
-		$criteria->compare('t.webhook_certificate',strtolower($this->webhook_certificate),true);
-		$criteria->compare('t.webhook_max_connections',$this->webhook_max_connections);
-		$criteria->compare('t.webhook_allowed_updates',strtolower($this->webhook_allowed_updates),true);
-		if($this->modified_date != null && !in_array($this->modified_date, array('0000-00-00 00:00:00', '0000-00-00')))
-			$criteria->compare('date(t.modified_date)',date('Y-m-d', strtotime($this->modified_date)));
-		if(isset($_GET['modified']))
-			$criteria->compare('t.modified_id',$_GET['modified']);
+		$criteria->compare('t.default', $this->default);
+		$criteria->compare('t.bot_username', strtolower($this->bot_username), true);
+		$criteria->compare('t.bot_token', strtolower($this->bot_token), true);
+		$criteria->compare('t.bot_name', strtolower($this->bot_name), true);
+		$criteria->compare('t.bot_description', strtolower($this->bot_description), true);
+		$criteria->compare('t.bot_about_text', strtolower($this->bot_about_text), true);
+		$criteria->compare('t.bot_userpic', strtolower($this->bot_userpic), true);
+		$criteria->compare('t.webhook_url', strtolower($this->webhook_url), true);
+		$criteria->compare('t.webhook_certificate', strtolower($this->webhook_certificate), true);
+		$criteria->compare('t.webhook_max_connections', $this->webhook_max_connections);
+		$criteria->compare('t.webhook_allowed_updates', strtolower($this->webhook_allowed_updates), true);
+		if($this->modified_date != null && !in_array($this->modified_date, array('0000-00-00 00:00:00','1970-01-01 00:00:00','0002-12-02 07:07:12','-0001-11-30 00:00:00')))
+			$criteria->compare('date(t.modified_date)', date('Y-m-d', strtotime($this->modified_date)));
+		if(Yii::app()->getRequest()->getParam('modified'))
+			$criteria->compare('t.modified_id', Yii::app()->getRequest()->getParam('modified'));
 		else
-			$criteria->compare('t.modified_id',$this->modified_id);
+			$criteria->compare('t.modified_id', $this->modified_id);
 		
-		$criteria->compare('modified.displayname',strtolower($this->modified_search), true);
+		$criteria->compare('modified.displayname', strtolower($this->modified_search), true);
 
-		if(!isset($_GET['TelegrambotSettings_sort']))
+		if(!Yii::app()->getRequest()->getParam('TelegrambotSettings_sort'))
 			$criteria->order = 't.setting_id DESC';
 
 		return new CActiveDataProvider($this, array(
@@ -279,7 +279,7 @@ class TelegrambotSettings extends CActiveRecord
 					),
 					'options'=>array(
 						'showOn' => 'focus',
-						'dateFormat' => 'dd-mm-yy',
+						'dateFormat' => 'yy-mm-dd',
 						'showOtherMonths' => true,
 						'selectOtherMonths' => true,
 						'changeMonth' => true,
@@ -288,10 +288,10 @@ class TelegrambotSettings extends CActiveRecord
 					),
 				), true),
 			);
-			if(!isset($_GET['type'])) {
+			if(!Yii::app()->getRequest()->getParam('type')) {
 				$this->defaultColumns[] = array(
 					'name' => 'default',
-					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("default",array("id"=>$data->setting_id)), $data->default, 1)',
+					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("default", array("id"=>$data->setting_id)), $data->default, 1)',
 					'htmlOptions' => array(
 						'class' => 'center',
 					),
@@ -303,7 +303,7 @@ class TelegrambotSettings extends CActiveRecord
 				);
 				$this->defaultColumns[] = array(
 					'name' => 'publish',
-					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("publish",array("id"=>$data->setting_id)), $data->publish, 1)',
+					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("publish", array("id"=>$data->setting_id)), $data->publish, 1)',
 					'htmlOptions' => array(
 						'class' => 'center',
 					),
@@ -324,7 +324,7 @@ class TelegrambotSettings extends CActiveRecord
 	public static function getInfo($id, $column=null)
 	{
 		if($column != null) {
-			$model = self::model()->findByPk($id,array(
+			$model = self::model()->findByPk($id, array(
 				'select' => $column,
 			));
  			if(count(explode(',', $column)) == 1)

@@ -4,7 +4,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
- * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
+ * @copyright Copyright (c) 2017 Ommu Platform (www.ommu.co)
  * @created date 7 January 2017, 01:58 WIB
  * @link https://github.com/ommu/mod-telegram-bot
  *
@@ -111,17 +111,17 @@ class TelegrambotStatisticData extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('t.id',strtolower($this->id),true);
-		if(isset($_GET['user']))
-			$criteria->compare('t.user_id',$_GET['user']);
+		$criteria->compare('t.id', strtolower($this->id), true);
+		if(Yii::app()->getRequest()->getParam('user'))
+			$criteria->compare('t.user_id', Yii::app()->getRequest()->getParam('user'));
 		else
-			$criteria->compare('t.user_id',$this->user_id);
-		$criteria->compare('t.content_id',strtolower($this->content_id),true);
-		$criteria->compare('t.flag',$this->flag);
-		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00', '0000-00-00')))
-			$criteria->compare('date(t.creation_date)',date('Y-m-d', strtotime($this->creation_date)));
+			$criteria->compare('t.user_id', $this->user_id);
+		$criteria->compare('t.content_id', strtolower($this->content_id), true);
+		$criteria->compare('t.flag', $this->flag);
+		if($this->creation_date != null && !in_array($this->creation_date, array('0000-00-00 00:00:00','1970-01-01 00:00:00','0002-12-02 07:07:12','-0001-11-30 00:00:00')))
+			$criteria->compare('date(t.creation_date)', date('Y-m-d', strtotime($this->creation_date)));
 
-		if(!isset($_GET['TelegrambotStatisticData_sort']))
+		if(!Yii::app()->getRequest()->getParam('TelegrambotStatisticData_sort'))
 			$criteria->order = 't.id DESC';
 
 		return new CActiveDataProvider($this, array(
@@ -197,7 +197,7 @@ class TelegrambotStatisticData extends CActiveRecord
 					),
 					'options'=>array(
 						'showOn' => 'focus',
-						'dateFormat' => 'dd-mm-yy',
+						'dateFormat' => 'yy-mm-dd',
 						'showOtherMonths' => true,
 						'selectOtherMonths' => true,
 						'changeMonth' => true,
@@ -216,7 +216,7 @@ class TelegrambotStatisticData extends CActiveRecord
 	public static function getInfo($id, $column=null)
 	{
 		if($column != null) {
-			$model = self::model()->findByPk($id,array(
+			$model = self::model()->findByPk($id, array(
 				'select' => $column,
 			));
  			if(count(explode(',', $column)) == 1)

@@ -7,7 +7,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
- * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
+ * @copyright Copyright (c) 2017 Ommu Platform (www.ommu.co)
  * @created date 7 January 2017, 02:16 WIB
  * @link https://github.com/ommu/mod-telegram-bot
  *
@@ -21,7 +21,7 @@
 	<ul>
 		<li>
 			<?php echo $model->getAttributeLabel('subscribe_id'); ?><br/>
-			<?php echo $form->textField($model,'subscribe_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'subscribe_id', array('size'=>11,'maxlength'=>11)); ?>
 		</li>
 
 		<li>
@@ -36,27 +36,27 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('user_id'); ?><br/>
-			<?php echo $form->textField($model,'user_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'user_id', array('size'=>11,'maxlength'=>11)); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('telegram_id'); ?><br/>
-			<?php echo $form->textField($model,'telegram_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'telegram_id', array('size'=>11,'maxlength'=>11)); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('telegram_first_name'); ?><br/>
-			<?php echo $form->textArea($model,'telegram_first_name',array('rows'=>6, 'cols'=>50)); ?>
+			<?php echo $form->textArea($model,'telegram_first_name', array('rows'=>6, 'cols'=>50)); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('telegram_last_name'); ?><br/>
-			<?php echo $form->textArea($model,'telegram_last_name',array('rows'=>6, 'cols'=>50)); ?>
+			<?php echo $form->textArea($model,'telegram_last_name', array('rows'=>6, 'cols'=>50)); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('telegram_username'); ?><br/>
-			<?php echo $form->textField($model,'telegram_username',array('size'=>32,'maxlength'=>32)); ?>
+			<?php echo $form->textField($model,'telegram_username', array('size'=>32,'maxlength'=>32)); ?>
 		</li>
 
 		<li>
@@ -71,7 +71,7 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('creation_id'); ?><br/>
-			<?php echo $form->textField($model,'creation_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'creation_id', array('size'=>11,'maxlength'=>11)); ?>
 		</li>
 
 		<li>
@@ -81,7 +81,7 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('modified_id'); ?><br/>
-			<?php echo $form->textField($model,'modified_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'modified_id', array('size'=>11,'maxlength'=>11)); ?>
 		</li>
 
 		<li class="submit">

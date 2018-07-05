@@ -7,7 +7,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
- * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
+ * @copyright Copyright (c) 2017 Ommu Platform (www.ommu.co)
  * @created date 7 January 2017, 02:15 WIB
  * @link https://github.com/ommu/mod-telegram-bot
  *
@@ -31,42 +31,42 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('bot_username'); ?><br/>
-			<?php echo $form->textField($model,'bot_username',array('size'=>32,'maxlength'=>32)); ?>
+			<?php echo $form->textField($model,'bot_username', array('size'=>32,'maxlength'=>32)); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('bot_token'); ?><br/>
-			<?php echo $form->textArea($model,'bot_token',array('rows'=>6, 'cols'=>50)); ?>
+			<?php echo $form->textArea($model,'bot_token', array('rows'=>6, 'cols'=>50)); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('bot_name'); ?><br/>
-			<?php echo $form->textField($model,'bot_name',array('size'=>32,'maxlength'=>32)); ?>
+			<?php echo $form->textField($model,'bot_name', array('size'=>32,'maxlength'=>32)); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('bot_description'); ?><br/>
-			<?php echo $form->textArea($model,'bot_description',array('rows'=>6, 'cols'=>50)); ?>
+			<?php echo $form->textArea($model,'bot_description', array('rows'=>6, 'cols'=>50)); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('bot_about_text'); ?><br/>
-			<?php echo $form->textArea($model,'bot_about_text',array('rows'=>6, 'cols'=>50)); ?>
+			<?php echo $form->textArea($model,'bot_about_text', array('rows'=>6, 'cols'=>50)); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('bot_userpic'); ?><br/>
-			<?php echo $form->textArea($model,'bot_userpic',array('rows'=>6, 'cols'=>50)); ?>
+			<?php echo $form->textArea($model,'bot_userpic', array('rows'=>6, 'cols'=>50)); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('webhook_url'); ?><br/>
-			<?php echo $form->textArea($model,'webhook_url',array('rows'=>6, 'cols'=>50)); ?>
+			<?php echo $form->textArea($model,'webhook_url', array('rows'=>6, 'cols'=>50)); ?>
 		</li>
 
 		<li>
 			<?php echo $model->getAttributeLabel('webhook_certificate'); ?><br/>
-			<?php echo $form->textArea($model,'webhook_certificate',array('rows'=>6, 'cols'=>50)); ?>
+			<?php echo $form->textArea($model,'webhook_certificate', array('rows'=>6, 'cols'=>50)); ?>
 		</li>
 
 		<li>
@@ -76,7 +76,7 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('webhook_allowed_updates'); ?><br/>
-			<?php echo $form->textArea($model,'webhook_allowed_updates',array('rows'=>6, 'cols'=>50)); ?>
+			<?php echo $form->textArea($model,'webhook_allowed_updates', array('rows'=>6, 'cols'=>50)); ?>
 		</li>
 
 		<li>
@@ -86,7 +86,7 @@
 
 		<li>
 			<?php echo $model->getAttributeLabel('modified_id'); ?><br/>
-			<?php echo $form->textField($model,'modified_id',array('size'=>11,'maxlength'=>11)); ?>
+			<?php echo $form->textField($model,'modified_id', array('size'=>11,'maxlength'=>11)); ?>
 		</li>
 
 		<li class="submit">

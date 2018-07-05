@@ -4,7 +4,7 @@
  *
  * @author Putra Sudaryanto <putra@sudaryanto.id>
  * @contact (+62)856-299-4114
- * @copyright Copyright (c) 2017 Ommu Platform (opensource.ommu.co)
+ * @copyright Copyright (c) 2017 Ommu Platform (www.ommu.co)
  * @created date 9 January 2017, 18:47 WIB
  * @link https://github.com/ommu/mod-telegram-bot
  *
@@ -118,12 +118,12 @@ class ViewTelegrambotUsers extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('t.subscribe_id',strtolower($this->subscribe_id),true);
-		$criteria->compare('t.setting_id',$this->setting_id);
-		$criteria->compare('t.subscribes',strtolower($this->subscribes),true);
-		$criteria->compare('t.subscribe_history',strtolower($this->subscribe_history),true);
+		$criteria->compare('t.subscribe_id', strtolower($this->subscribe_id), true);
+		$criteria->compare('t.setting_id', $this->setting_id);
+		$criteria->compare('t.subscribes', strtolower($this->subscribes), true);
+		$criteria->compare('t.subscribe_history', strtolower($this->subscribe_history), true);
 
-		if(!isset($_GET['ViewTelegrambotUsers_sort']))
+		if(!Yii::app()->getRequest()->getParam('ViewTelegrambotUsers_sort'))
 			$criteria->order = 't.setting_id DESC';
 
 		return new CActiveDataProvider($this, array(
@@ -184,7 +184,7 @@ class ViewTelegrambotUsers extends CActiveRecord
 	public static function getInfo($id, $column=null)
 	{
 		if($column != null) {
-			$model = self::model()->findByPk($id,array(
+			$model = self::model()->findByPk($id, array(
 				'select' => $column,
 			));
  			if(count(explode(',', $column)) == 1)
