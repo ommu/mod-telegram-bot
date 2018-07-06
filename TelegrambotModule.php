@@ -2,6 +2,8 @@
 
 class TelegrambotModule extends CWebModule
 {
+	use ThemeTrait;
+
 	public $defaultController = 'contact'; 
 	
 	// getAssetsUrl()
@@ -42,11 +44,11 @@ class TelegrambotModule extends CWebModule
 			// pake ini untuk set theme per action di controller..
 			// $currentAction = Yii::app()->controller->id.'/'.$action->id;
 			if(!in_array(strtolower(Yii::app()->controller->id), $publicControllers) && !Yii::app()->user->isGuest) {
-				$arrThemes = Utility::getCurrentTemplate('admin');
+				$arrThemes = $this->currentTemplate('admin');
 				Yii::app()->theme = $arrThemes['folder'];
 				$this->layout = $arrThemes['layout'];
 			}
-			Utility::applyCurrentTheme($this);
+			$this->applyCurrentTheme($this);
 			
 			return true;
 		}
