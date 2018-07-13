@@ -319,7 +319,7 @@ class TelegrambotSettings extends CActiveRecord
 	/**
 	 * User get information
 	 */	
-	public static function getSetting($publish=null, $type=null) 
+	public static function getSetting($publish=null, $array=true) 
 	{
 		$criteria=new CDbCriteria;
 		if($publish != null)
@@ -328,18 +328,16 @@ class TelegrambotSettings extends CActiveRecord
 		
 		$model = self::model()->findAll($criteria);
 		
-		if($type != null && $type == 'array') {
+		if($array == true) {
 			$items = array();
 			if($model != null) {
-				foreach($model as $key => $val)
+				foreach($model as $key => $val) 
 					$items[$val->setting_id] = $val->bot_username;
-			}
-			$return = $items;
-			
+				return $items;
+			} else
+				return false;
 		} else
-			$return = $model;
-		
-		return $return;
+			return $model;
 	}
 
 	/**
