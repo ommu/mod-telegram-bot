@@ -216,7 +216,7 @@ class TelegrambotUserHistory extends CActiveRecord
 			}
 			$this->defaultColumns[] = array(
 				'name' => 'status_date',
-				'value' => 'Utility::dateFormat($data->status_date, true)',
+				'value' => 'Yii::app()->dateFormatter->formatDateTime($data->status_date, \'medium\', false)',
 				'htmlOptions' => array(
 					//'class' => 'center',
 				),
