@@ -115,7 +115,7 @@ class SettingController extends Controller
 	public function actionManage() 
 	{
 		$model=new TelegrambotSettings('search');
-		$model->unsetAttributes();  // clear any default values
+		$model->unsetAttributes();	// clear any default values
 		if(isset($_GET['TelegrambotSettings'])) {
 			$model->attributes=$_GET['TelegrambotSettings'];
 		}

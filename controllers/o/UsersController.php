@@ -110,7 +110,7 @@ class UsersController extends Controller
 	public function actionManage() 
 	{
 		$model=new TelegrambotUsers('search');
-		$model->unsetAttributes();  // clear any default values
+		$model->unsetAttributes();	// clear any default values
 		if(isset($_GET['TelegrambotUsers'])) {
 			$model->attributes=$_GET['TelegrambotUsers'];
 		}

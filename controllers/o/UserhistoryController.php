@@ -105,7 +105,7 @@ class UserhistoryController extends Controller
 	public function actionManage() 
 	{
 		$model=new TelegrambotUserHistory('search');
-		$model->unsetAttributes();  // clear any default values
+		$model->unsetAttributes();	// clear any default values
 		if(isset($_GET['TelegrambotUserHistory'])) {
 			$model->attributes=$_GET['TelegrambotUserHistory'];
 		}

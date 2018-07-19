@@ -110,7 +110,7 @@ class CommandController extends Controller
 	public function actionManage() 
 	{
 		$model=new TelegrambotCommands('search');
-		$model->unsetAttributes();  // clear any default values
+		$model->unsetAttributes();	// clear any default values
 		if(isset($_GET['TelegrambotCommands'])) {
 			$model->attributes=$_GET['TelegrambotCommands'];
 		}
