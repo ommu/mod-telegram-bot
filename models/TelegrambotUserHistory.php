@@ -128,12 +128,12 @@ class TelegrambotUserHistory extends CActiveRecord
 		// Custom Search
 		$criteria->with = array(
 			'subscribe' => array(
-				'alias'=>'subscribe',
-				'select'=>'user_id, telegram_id, telegram_username',
+				'alias' => 'subscribe',
+				'select' => 'user_id, telegram_id, telegram_username',
 			),
 			'subscribe.user' => array(
-				'alias'=>'user',
-				'select'=>'displayname',
+				'alias' => 'user',
+				'select' => 'displayname',
 			),
 		);
 

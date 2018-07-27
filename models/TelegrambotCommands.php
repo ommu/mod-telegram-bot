@@ -141,16 +141,16 @@ class TelegrambotCommands extends CActiveRecord
 		// Custom Search
 		$criteria->with = array(
 			'setting' => array(
-				'alias'=>'setting',
-				'select'=>'bot_username',
+				'alias' => 'setting',
+				'select' => 'bot_username',
 			),
 			'creation' => array(
-				'alias'=>'creation',
-				'select'=>'displayname',
+				'alias' => 'creation',
+				'select' => 'displayname',
 			),
 			'modified' => array(
-				'alias'=>'modified',
-				'select'=>'displayname',
+				'alias' => 'modified',
+				'select' => 'displayname',
 			),
 		);
 

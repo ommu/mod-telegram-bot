@@ -158,23 +158,23 @@ class TelegrambotUsers extends CActiveRecord
 		// Custom Search
 		$criteria->with = array(
 			'view' => array(
-				'alias'=>'view',
+				'alias' => 'view',
 			),
 			'setting' => array(
-				'alias'=>'setting',
-				'select'=>'bot_username',
+				'alias' => 'setting',
+				'select' => 'bot_username',
 			),
 			'user' => array(
-				'alias'=>'user',
-				'select'=>'displayname',
+				'alias' => 'user',
+				'select' => 'displayname',
 			),
 			'creation' => array(
-				'alias'=>'creation',
-				'select'=>'displayname',
+				'alias' => 'creation',
+				'select' => 'displayname',
 			),
 			'modified' => array(
-				'alias'=>'modified',
-				'select'=>'displayname',
+				'alias' => 'modified',
+				'select' => 'displayname',
 			),
 		);
 
@@ -321,7 +321,7 @@ class TelegrambotUsers extends CActiveRecord
 				'htmlOptions' => array(
 					'class' => 'center',
 				),
-				'filter'=>array(
+				'filter' =>array(
 					'private'=>Yii::t('phrase', 'Private'),
 					'group'=>Yii::t('phrase', 'Group'),
 				),
