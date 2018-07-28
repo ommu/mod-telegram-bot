@@ -30,8 +30,8 @@
 
 		<?php if(empty($setting) || (!empty($setting) && count($setting) > 1)) {?>
 		<div class="form-group row">
-			<?php echo $form->labelEx($model,'setting_id', array('class'=>'col-form-label col-lg-4 col-md-3 col-sm-12')); ?>
-			<div class="col-lg-8 col-md-9 col-sm-12">
+			<?php echo $form->labelEx($model,'setting_id', array('class'=>'col-form-label col-lg-3 col-md-3 col-sm-12')); ?>
+			<div class="col-lg-6 col-md-9 col-sm-12">
 				<?php 
 				//echo $form->textField($model,'setting_id');
 				if(!empty($setting))
@@ -45,8 +45,8 @@
 		<?php }?>
 
 		<div class="form-group row">
-			<?php echo $form->labelEx($model,'command_name', array('class'=>'col-form-label col-lg-4 col-md-3 col-sm-12')); ?>
-			<div class="col-lg-8 col-md-9 col-sm-12">
+			<?php echo $form->labelEx($model,'command_name', array('class'=>'col-form-label col-lg-3 col-md-3 col-sm-12')); ?>
+			<div class="col-lg-6 col-md-9 col-sm-12">
 				<?php echo $form->textField($model,'command_name', array('maxlength'=>8, 'class'=>'form-control')); ?>
 				<?php echo $form->error($model,'command_name'); ?>
 				<?php /*<div class="small-px silent"></div>*/?>
@@ -54,8 +54,8 @@
 		</div>
 
 		<div class="form-group row">
-			<?php echo $form->labelEx($model,'command_desc', array('class'=>'col-form-label col-lg-4 col-md-3 col-sm-12')); ?>
-			<div class="col-lg-8 col-md-9 col-sm-12">
+			<?php echo $form->labelEx($model,'command_desc', array('class'=>'col-form-label col-lg-3 col-md-3 col-sm-12')); ?>
+			<div class="col-lg-6 col-md-9 col-sm-12">
 				<?php echo $form->textArea($model,'command_desc', array('rows'=>6, 'cols'=>50, 'class'=>'form-control')); ?>
 				<?php echo $form->error($model,'command_desc'); ?>
 				<?php /*<div class="small-px silent"></div>*/?>
@@ -63,8 +63,8 @@
 		</div>
 
 		<div class="form-group row publish">
-			<?php echo $form->labelEx($model,'publish', array('class'=>'col-form-label col-lg-4 col-md-3 col-sm-12')); ?>
-			<div class="col-lg-8 col-md-9 col-sm-12">
+			<?php echo $form->labelEx($model,'publish', array('class'=>'col-form-label col-lg-3 col-md-3 col-sm-12')); ?>
+			<div class="col-lg-6 col-md-9 col-sm-12">
 				<?php echo $form->checkBox($model,'publish', array('class'=>'form-control')); ?>
 				<?php echo $form->labelEx($model,'publish'); ?>
 				<?php echo $form->error($model,'publish'); ?>

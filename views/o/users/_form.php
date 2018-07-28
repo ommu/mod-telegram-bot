@@ -30,8 +30,8 @@
 		
 		<?php if(empty($setting) || (!empty($setting) && count($setting) > 1)) {?>
 		<div class="form-group row">
-			<?php echo $form->labelEx($model,'setting_id', array('class'=>'col-form-label col-lg-4 col-md-3 col-sm-12')); ?>
-			<div class="col-lg-8 col-md-9 col-sm-12">
+			<?php echo $form->labelEx($model,'setting_id', array('class'=>'col-form-label col-lg-3 col-md-3 col-sm-12')); ?>
+			<div class="col-lg-6 col-md-9 col-sm-12">
 				<?php 
 				//echo $form->textField($model,'setting_id');
 				if(!empty($setting))
@@ -45,8 +45,8 @@
 		<?php }?>
 
 		<div class="form-group row">
-			<?php echo $form->labelEx($model,'user_id', array('class'=>'col-form-label col-lg-4 col-md-3 col-sm-12')); ?>
-			<div class="col-lg-8 col-md-9 col-sm-12">
+			<?php echo $form->labelEx($model,'user_id', array('class'=>'col-form-label col-lg-3 col-md-3 col-sm-12')); ?>
+			<div class="col-lg-6 col-md-9 col-sm-12">
 				<?php echo $form->textField($model,'user_id', array('maxlength'=>11, 'class'=>'form-control')); ?>
 				<?php echo $form->error($model,'user_id'); ?>
 				<?php /*<div class="small-px silent"></div>*/?>
@@ -54,8 +54,8 @@
 		</div>
 
 		<div class="form-group row">
-			<?php echo $form->labelEx($model,'telegram_id', array('class'=>'col-form-label col-lg-4 col-md-3 col-sm-12')); ?>
-			<div class="col-lg-8 col-md-9 col-sm-12">
+			<?php echo $form->labelEx($model,'telegram_id', array('class'=>'col-form-label col-lg-3 col-md-3 col-sm-12')); ?>
+			<div class="col-lg-6 col-md-9 col-sm-12">
 				<?php echo $form->textField($model,'telegram_id', array('maxlength'=>11, 'class'=>'form-control')); ?>
 				<?php echo $form->error($model,'telegram_id'); ?>
 				<?php /*<div class="small-px silent"></div>*/?>
@@ -63,8 +63,8 @@
 		</div>
 
 		<div class="form-group row">
-			<?php echo $form->labelEx($model,'telegram_first_name', array('class'=>'col-form-label col-lg-4 col-md-3 col-sm-12')); ?>
-			<div class="col-lg-8 col-md-9 col-sm-12">
+			<?php echo $form->labelEx($model,'telegram_first_name', array('class'=>'col-form-label col-lg-3 col-md-3 col-sm-12')); ?>
+			<div class="col-lg-6 col-md-9 col-sm-12">
 				<?php echo $form->textField($model,'telegram_first_name', array('rows'=>6, 'cols'=>50, 'class'=>'form-control')); ?>
 				<?php echo $form->error($model,'telegram_first_name'); ?>
 				<?php /*<div class="small-px silent"></div>*/?>
@@ -72,8 +72,8 @@
 		</div>
 
 		<div class="form-group row">
-			<?php echo $form->labelEx($model,'telegram_last_name', array('class'=>'col-form-label col-lg-4 col-md-3 col-sm-12')); ?>
-			<div class="col-lg-8 col-md-9 col-sm-12">
+			<?php echo $form->labelEx($model,'telegram_last_name', array('class'=>'col-form-label col-lg-3 col-md-3 col-sm-12')); ?>
+			<div class="col-lg-6 col-md-9 col-sm-12">
 				<?php echo $form->textField($model,'telegram_last_name', array('rows'=>6, 'cols'=>50, 'class'=>'form-control')); ?>
 				<?php echo $form->error($model,'telegram_last_name'); ?>
 				<?php /*<div class="small-px silent"></div>*/?>
@@ -81,8 +81,8 @@
 		</div>
 
 		<div class="form-group row">
-			<?php echo $form->labelEx($model,'telegram_username', array('class'=>'col-form-label col-lg-4 col-md-3 col-sm-12')); ?>
-			<div class="col-lg-8 col-md-9 col-sm-12">
+			<?php echo $form->labelEx($model,'telegram_username', array('class'=>'col-form-label col-lg-3 col-md-3 col-sm-12')); ?>
+			<div class="col-lg-6 col-md-9 col-sm-12">
 				<?php echo $form->textField($model,'telegram_username', array('maxlength'=>32, 'class'=>'form-control')); ?>
 				<?php echo $form->error($model,'telegram_username'); ?>
 				<?php /*<div class="small-px silent"></div>*/?>
@@ -90,8 +90,8 @@
 		</div>
 
 		<div class="form-group row publish">
-			<?php echo $form->labelEx($model,'subscribe', array('class'=>'col-form-label col-lg-4 col-md-3 col-sm-12')); ?>
-			<div class="col-lg-8 col-md-9 col-sm-12">
+			<?php echo $form->labelEx($model,'subscribe', array('class'=>'col-form-label col-lg-3 col-md-3 col-sm-12')); ?>
+			<div class="col-lg-6 col-md-9 col-sm-12">
 				<?php echo $form->checkBox($model,'subscribe', array('class'=>'form-control')); ?>
 				<?php echo $form->labelEx($model,'subscribe'); ?>
 				<?php echo $form->error($model,'subscribe'); ?>
