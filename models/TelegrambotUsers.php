@@ -280,11 +280,11 @@ class TelegrambotUsers extends CActiveRecord
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'user_search',
-				'value' => '$data->user_id != 0 ? $data->user->displayname : "-"',
+				'value' => '$data->user_id != 0 ? $data->user->displayname : \'-\'',
 			);
 			$this->defaultColumns[] = array(
 				'name' => 'telegram_id',
-				'value' => '$data->telegram_id != 0 ? $data->telegram_id : "-"',
+				'value' => '$data->telegram_id != 0 ? $data->telegram_id : \'-\'',
 				'htmlOptions' => array(
 					'class' => 'center',
 				),

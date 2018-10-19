@@ -16,7 +16,7 @@
 	$this->breadcrumbs=array(
 		'Telegrambot Users'=>array('manage'),
 		$model->subscribe_id=>array('view','id'=>$model->subscribe_id),
-		'Update',
+		Yii::t('phrase', 'Update'),
 	);
 ?>
 

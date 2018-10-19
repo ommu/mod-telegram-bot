@@ -275,7 +275,7 @@ class TelegrambotSettings extends CActiveRecord
 			if(!Yii::app()->getRequest()->getParam('type')) {
 				$this->defaultColumns[] = array(
 					'name' => 'default',
-					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("default", array("id"=>$data->setting_id)), $data->default, 1)',
+					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl(\'default\', array(\'id\'=>$data->setting_id)), $data->default, 1)',
 					'htmlOptions' => array(
 						'class' => 'center',
 					),
@@ -284,7 +284,7 @@ class TelegrambotSettings extends CActiveRecord
 				);
 				$this->defaultColumns[] = array(
 					'name' => 'publish',
-					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl("publish", array("id"=>$data->setting_id)), $data->publish, 1)',
+					'value' => 'Utility::getPublish(Yii::app()->controller->createUrl(\'publish\', array(\'id\'=>$data->setting_id)), $data->publish, 1)',
 					'htmlOptions' => array(
 						'class' => 'center',
 					),

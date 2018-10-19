@@ -22,7 +22,6 @@
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'telegrambot-commands-form',
 	'enableAjaxValidation'=>true,
-	//'htmlOptions' => array('enctype' => 'multipart/form-data')
 )); ?>
 
 	<div class="dialog-content">

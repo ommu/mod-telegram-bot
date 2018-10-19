@@ -203,11 +203,11 @@ class TelegrambotUserHistory extends CActiveRecord
 			if(!Yii::app()->getRequest()->getParam('subscribe')) {
 				$this->defaultColumns[] = array(
 					'name' => 'user_search',
-					'value' => '$data->subscribe->user_id != 0 ? $data->subscribe->user->displayname : "-"',
+					'value' => '$data->subscribe->user_id != 0 ? $data->subscribe->user->displayname : \'-\'',
 				);
 				$this->defaultColumns[] = array(
 					'name' => 'username_search',
-					'value' => '$data->subscribe->telegram_username != \'\' ? $data->subscribe->telegram_username : "-"',
+					'value' => '$data->subscribe->telegram_username != \'\' ? $data->subscribe->telegram_username : \'-\'',
 				);
 				$this->defaultColumns[] = array(
 					'name' => 'telegram_search',

@@ -15,7 +15,7 @@
 
 	$this->breadcrumbs=array(
 		'Telegrambot Settings'=>array('manage'),
-		'Create',
+		Yii::t('phrase', 'Create'),
 	);
 ?>
 

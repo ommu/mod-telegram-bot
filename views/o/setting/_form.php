@@ -111,8 +111,7 @@
 	<div class="form-group row">
 		<?php echo $form->labelEx($model,'webhook_max_connections', array('class'=>'col-form-label col-lg-3 col-md-3 col-sm-12')); ?>
 		<div class="col-lg-6 col-md-9 col-sm-12">
-			<?php
-			if($model->isNewRecord && !$model->getErrors())
+			<?php if($model->isNewRecord && !$model->getErrors())
 				$model->webhook_max_connections = 40;
 			echo $form->textField($model,'webhook_max_connections', array('maxlength'=>3, 'class'=>'form-control')); ?>
 			<?php echo $form->error($model,'webhook_max_connections'); ?>
